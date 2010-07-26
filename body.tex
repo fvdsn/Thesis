@@ -1,4 +1,4 @@
-\chapter{Présentation des frameworks d'édition d'images (15 pages) }
+\chapter{Présentation des frameworks d'édition d'images}
 	
 	Dans ce mémoire nous discuterons d'un ensemble d'algorithmes constituant un framework
 	de rendu et d'édition d'images nommé \emph{Himalaya}. Par le terme framework nous entendons une
@@ -12,12 +12,10 @@
 	les fonctionalités qu'ils doivent présenter à l'utilisateur et enfin les différentes manières de les implémenter,
 	afin de voir où se situe \emph{Himalaya} dans le paysage des frameworks d'édition d'images.
 
-	Pour réaliser cette présentation je me suis basé sur une lecture du code source des différents frameworks open-source, afin d'évaluer
-	les structures de données et les algorithmes utilisés. Je me suis ausi basé sur les fonctionalités et leurs performances dans des
+	Pour réaliser cette présentation nous nous sommes basé sur une lecture du code source des différents frameworks open-source, afin d'évaluer
+	les structures de données et les algorithmes utilisés. Nous avons également étudié les fonctionalités et performances des
 	logiciels fermés. Enfin, une étude des spécifications des principaux formats de fichiers standards permet de se rendre compte des
 	fonctionalités qui sont attendues dans les frameworks. 
-
-	
 
 	\section{Architecture d'un framework d'édition d'image}
 		Un framework d'édition d'images est composé de trois éléments principaux : 
@@ -39,10 +37,14 @@
 			\subsubsection{Dessin de primitives}
 				Par dessin de primitive on entend l'ajout sur l'image de primitives géométriques, comme
 				des polygones, des lignes, des points, des ellipses, du texte, etc. Ces primitives ont généralement un 
-				effet local sur l'image, c'est à dire qu'elles ne la modifient pas dans son intégralité. On s'attend généralement
-				de la part d'un framework d'édition d'image que de telles opérations soient peu couteuse en
-				temps et en mémoire, étant donné que la réalisation d'un dessin intéressant nécessite généralement
-				un nombre très élevé de primitives, qui peut se compter en millions.
+				effet local sur l'image, c'est à dire qu'elles ne la modifient pas dans son intégralité. 
+
+				On différencie deux approches du dessin de primitive: L'approche dite vectorielle ou l'on utilise un 
+				nombre réduit de primitives complexes (texte, courbes de bézier,...), et l'approche bitmap ou l'on utilise
+				un très grand nombre de primitives très simples(ellipses, petits bitmaps, ...) Pour cette seconde approche
+				il est important que cette opération soit peu couteuse en temps et en mémoire, étant donné qu'une peinture
+				peut être constituée de plusieurs millions de telles primitives.
+
 				\index{Primitives, dessin de}
 				\begin{figure}[h]
 					\centering
@@ -72,14 +74,22 @@
 				Les transformations géométriques modifient la forme d'un objet constituant l'image; rotation, translation, 
 				redimentionnement et perspective sont les applications les plus courantes. 
 				
+				Il y a deux approches pour implémenter les transformations
+				géométriques: l'approche vectorielle consiste à modifier la description de l'image avant la rasterisation. L'approche
+				bitmap consiste à modifier les pixels après leur rasterisation. Cette deuxième approche, nettement plus lente, permet
+				cependant d'implémenter des transformations non linéaires, telle que les transformées polaires, la correction de distortion de 
+				lentille, ou les déformations fluides. 
+				
 			\subsubsection{Fusion et modes de fusion}
-				La fusion consiste à fusionner deux images de même taille en les superposant via une fonction spécifique s'appliquant pixel par pixel.
-				Cette fonction est nommée \emph{mode de fusion} et a la forme $f(p_A ,p_B ,\alpha)$, où $p_A$, $p_B$ sont deux pixels 
-				de coordonnées identiques appartenant aux deux images à fusionner. $\alpha$ représente un ou plusieurs paramètres additionnels qui peuvent
-				modifier l'effet de la fonction.
+				La fusion consiste à fusionner deux images en une. On utilise pour cela une fonction nommée \emph{mode de fusion}.
+				Elle à la forme $f(p_A ,p_B ,\alpha)$, où $p_A$, $p_B$ sont deux pixels des images $A$,$B$ que l'on veut fusionner. 
+				$\alpha$ représente un ou plusieurs paramètres additionnels qui peuvent	modifier l'effet de la fonction.
 
 				Le \emph{mode de fusion} la plus courante est celui de mélange par opacité: $f(p_A, p_B, \alpha) = \alpha * p_A + (1-\alpha) * p_B$,  $\alpha \in [0,1]$ 
-				représentant l'opacité de $B$.
+				représentant l'opacité de $B$, mais il en existe bien d'autres.
+
+				On peut utiliser cette fonction pour fusionner deux images en une nouvelle : $ C = f(A,B,\alpha)$, ou pour intégrer une image dans
+				une autre $A = f(A,B,\alpha)$
 
 				Puisque chaque dessin de primitive consiste en la fusion de celle ci sur l'image de fond, la fusion est une opération centrale
 				dans tout framework. Cependant beaucoup d'entre eux se limitent au seul mode de mélange par opacité.
@@ -111,10 +121,10 @@
 			\end{description}
 			Il existe encore bien d'autres espaces colorimétriques spécifiques à des applications industrielles particulières. 
 
-			Pour compliquer le tout, les espaces colorimétriques ne se supperposent généralement pas. Ainsi des couleurs qui peuvent s'exprimer dans l'un n'existent pas
+			Pour compliquer le tout, les espaces colorimétriques ne se superposent généralement pas. Ainsi des couleurs qui peuvent s'exprimer dans l'un n'existent pas
 			dans l'autre. Un framework dédié à l'impression doit ainsi prendre garde de n'afficher en RGB que des couleurs disponibles dans le CMYK de l'imprimante.
 
-			Une autre manière de décrire les couleurs est d'utiliser une palette de couleurs standard. Ce système est utilisé dans les images destinées à l'impression
+			Une autre manière de décrire les couleurs est d'utiliser un nuancier contenant une liste de couleurs standardisées. Ce système est utilisé dans les images destinées à l'impression
 			afin d'identifier des encres dont l'apparence ne peut être réduite à une simple couleur, comme les encres mattes, brillantes, métallisées,
 			fluorescentes, etc. Dans ce cas chaque pixel possède une certaine quantité de chacune des  couleurs utilisées pour décrire l'image.
 
@@ -124,11 +134,11 @@
 			d'un écran, ce qui est particulièrement intéressant pour l'édition non destructive d'image utilisée en photographie et en 
 			effets spéciaux. La précision apportée par une telle profondeur est également indispensable pour le cinéma numérique.
 
-			\subsubsection{Au delà de la couleur}
+			\subsubsection{Extensions de modèles colorimétriques}
 
 			Enfin, il arrive qu'un pixel ne décrive plus une couleur mais une information quelconque de lá partie de l'objet qu'il représente.
 			On rencontre ainsi la distance du pixel à l'observateur, la normale de la surface, un identifiant unique de l'objet, la vitesse de
-			déplacement de l'objet, etc.
+			déplacement de l'objet, etc. Ces informations sont généralement fournies en plus des informations colorimétriques habituelles.
 
 			Ce type d'information est typiquement fourni par la caméra ou généré par le moteur de rendu afin de faciliter l'intégration d'effets
 			spéciaux à l'image. Le type d'information utilisés apparaissent et disparaissent avec les technologies, nécessitant une grande 
@@ -149,23 +159,28 @@
 		\subsection{Édition non destructive}
 			L'édition non destructive consiste à pouvoir modifier les opérations après leur application sans perte de qualité de l'image.
 		\subsection{Composition non linéaire}
-			La composition non linéaire permet à une opération d'utiliser le résultat d'une opération que celle appliquée précedemment. Cette
-			fonctionalité permet d'obtenir des effets complexes à partir d'opérations simples. 
+			La composition non linéaire permet à une opération d'utiliser le résultat d'une opération autre que celle appliquée précedemment. Idéalement
+			le résultat de cette opération ne doit pas être recalculé. Cette fonctionalité permet de combiner des effets simples afin d'obtenir des
+			effets beaucoup plus complexes que ce qui est possible par composition linéaire, et permet souvent à l'utilisateur d'éviter de devoir 
+			programmer ses propres effets. De nombreux logiciels présentent ainsi une interface nodale 
+			comme alternative à la programmation de pixel-shaders.
+
 		\subsection{Édition par pixel}
-			Certains frameworks permettent d'éditer l'image au niveau des pixels individuels.
-		\subsection{Indépendance de la résolution}
+			Certains frameworks permettent d'éditer individuellement chaque pixel de l'image. 
+		\subsection{Indépendance à la résolution}
 			Dans ce cas la description de l'image est indépendante de la résolution utilisée pour la rasterisation; Il n'y a pas de dégradation
-			de la qualité de l'image quelque soit la résolution utilisée pour le rendu.
+			de la qualité de l'image quelque soit la résolution utilisée pour le rendu. L'édition par pixel et l'indpendance à la résolution
+			sont deux fonctionalités mutuellement exclusives.
 		\subsection{Images gigapixels}
-			Les images gigapixels sont les images constituées de plus d'un milliard de pixel, qui sont généralement plus grandes que la mémoire
-			vive disponible. Ces images sont utilisées de plus en plus fréquement et certains frameworks, dont \emph{Himalaya} sont particulièrement
-			adaptés à la gestion de ce type d'images. 
+			Les images gigapixels sont les images constituées de plus d'un milliard de pixel, qui peuvent être plus grandes que la mémoire
+			vive disponible. Avec l'évolution des capteurs photographiques et des espaces de stockages, ce type d'image est utilisé de plus en plus
+			fréquemment. Astronomie, cartographie, jeux vidéos, sont autant de domaines faisant usage de telles images. 
+
 		\subsection{Traitement d'images multiples}
-			Le traitement d'images multiples consiste en savoir appliquer facilement les mêmes opérations sur un large nombre d'images similaires, 
-			comme par exemple les photos d'une séance de shooting, les frames d'une vidéo ou d'un moteur 3D, si possible en temps réel.
+			Le traitement d'images multiples consiste à savoir appliquer facilement les mêmes opérations sur un large nombre d'images similaires, 
+			comme par exemple les photos d'une séance de shooting, les frames d'une vidéo ou d'un moteur 3D.
 
 	\section{Frameworks Bitmaps}
-
 		\subsection{Schéma de représentation de l'image}
 			\begin{figure}[h]
 				\centering
@@ -196,14 +211,15 @@
 
 			La deuxième approche consiste à diviser l'image de fond et les calques en une grille de sous régions aux dimensions régulières appelées
 			tiles. Lors de l'application de l'opération, celle ci ne modifiera que certains tiles. Seuls les tiles correspondants dans les calques
-			et l'image de fond seront fusionnés dans le buffer de visualisation. 
+			et l'image de fond seront fusionnés dans le buffer de visualisation. Les tiles peuvent également être traités en parallèle sur une 
+			machine multi-processeur.
 
 			Les tiles ont d'autres intérèts que d'accélérer la rasterisation; En omettant les tiles des zones transparentes des calques ou réduit 
 			l'espace mémoire qu'ils consomment. En outre, les tiles peuvent être migrés vers le disque dur lorsqu'il n'est plus possible de tous
 			les stoquer en mémoire, ils sont ensuite récupérés lorsqu'ils sont utilisés. 
 			
-			Il n'est cependant pas toujours possible d'implémenter une opération pour qu'elle fonctionne tile par tile. Dans ces cas on utilise un
-			buffer intermédiaire.
+			Il n'est cependant pas toujours possible d'implémenter une opération pour qu'elle fonctionne tile par tile. Dans ces cas on devra placer
+			les tiles dans un buffer temporaire et les récupérer après l'opération. 
 
 		\subsection{Fonctionalités adaptées aux frameworks bitmaps}
 			\subsubsection{Opérations de dessin}
@@ -214,14 +230,14 @@
 				L'undo/redo est implémenté en gardant une copie de la région/tiles modifiée par l'opération avant sa modification. 
 				Il suffit ensuite de réutiliser ces copies pour obtenir la version sauvegardée. Garder les copies consomme beaucoup de mémoire,
 				et une limite d'historique est nécessaire pour pallier à ce problème. En revanche, annuler ou refaire une opération ne demande
-				pas de recalculer d'opération et est donc très rapide.
+				pas de recalculer l'opération et est donc très rapide.
 		\subsection{Fonctionalités inadaptées aux frameworks bitmaps}
 			\subsubsection{Modèles colorimétriques et métadonnées}
 				L'architecture des frameworks bitmaps limite sévèrement les possibilité de gestion de modèles colorimétriques et de métadonnées.
 				En effet, comme chaque opération est rasterisée dans le calque dès son application, les opérations doivent nécéssairement 
-				avoir le même modèle colorimétrique en entrée et en sortie. Elles doivent aussi comprendre le modèle colorimétrique et les
-				métadonnées du calques, ce qui nécessite de devoir soit modifier les opérations à chaque ajout de nouveau type de modèles colorimétriques
-				et métadonnées, soit de passer par de couteuses transformations de modèles.
+				avoir le même modèle colorimétrique en entrée et en sortie. Elles doivent aussi comprendre le modèle colorimétrique et extensions du 
+				calque, ce qui nécessite de devoir soit modifier les opérations à chaque ajout de nouveau type de modèles colorimétriques et d'extensions
+				soit de passer par de couteuses transformations de modèles.
 
 				Il exite une solution permettant d'améliorer la situation : Au lieu de placer tous les composants du pixel dans un même calque, on
 				divise le calque en sous calques appelés canaux qui contiennent chacun un seul composant du pixel. Les opérations sont ensuite 
@@ -244,8 +260,19 @@
 				Il est cependant possible d'implémenter des opérations non destructives en tant que calques à part entière. 
 				Si l'opération est un filtre spatial, il faudra pouvoir étendre le buffer de rasterisation pour que le filtre ait accès aux données
 				nécessaires. Et s'il s'agit d'un filtre de transformation, la zone à modifier dans le buffer de visualisation devra elle aussi
-				être modifiée au fur et à mesure des filtres. Tout cela étant fort compliqué à implémenter, les frameworks se contentent 
-				généralement des filtres colorimétriques et du dessin de primitives.
+				être modifiée au fur et à mesure des filtres. Tout cela étant fort compliqué à implémenter, sans garantie de performances, 
+				les frameworks confinent généralement l'édition non destructive aux filtres colorimétriques et dessin de primitives.
+		\subsection{Framework bitmaps, l'état de l'art}
+			\begin{description}
+				\item[Adobe Photoshop] Logiciel de peinture et retouche photo
+				\item[Corel Painter] Logiciel de peinture
+				\item[Artrage] Logiciel de peinture
+				\item[Gimp $\leq$ 2.6] Logiciel de peinture et retouche photo open source
+				\item[Krita] Logiciel de peinture et retouche photo open source
+				\item[Blender3d] Utilisé pour la peinture de texture, Logiciel d'animation 3D.
+				\item[psd] Format d'image de photoshop
+				\item[xcf] Format d'image de Gimp.
+			\end{description}
 
 	\section{Frameworks Nodaux}
 		\subsection{Schéma de représentation de l'image}
@@ -253,7 +280,7 @@
 				\centering
 				\subfloat[En rouge les noeuds d'entrée, en orange les noeuds d'opération, en vert les noeuds de visualisation]{ \label{fig:render} \includegraphics[width=0.6\textwidth]{images/nodes} }
 				\subfloat[Image calculée par le graphe (a)]{ \label{fig:render-hsv} \includegraphics[width=0.4\textwidth]{images/nodes-out} }
-				\caption{Example d'édition nodale d'images tel qu'implémenté par \emph{Blender 2.49}}
+				\caption{Example d'édition nodale d'images telle qu'implémenté par \emph{Blender 2.49}}
 				\label{fig:editnodal}
 			\end{figure}
 			Les frameworks nodaux représentent l'image par un graphe composé de trois types de noeuds.
@@ -292,6 +319,9 @@
 			\subsubsection{Édition non destructive}
 				C'est un des gros points forts des frameworks nodaux. On peut facilement modifier les paramètres et la topologie du graphe
 				et visualiser le résultat.
+			\subsubsection{Composition non linéaire}
+				La composition non linéaire découle de l'architecture en graphe des frameworks nodaux. Les frameworks nodaux sont d'ailleurs
+				les seuls frameworks permettant une réelle édition non linéaire. 
 			\subsubsection{Modèle colorimétrique}
 				Un framework nodal offre une liberté totale à l'utilisateur en ce qui concerne les modèles colorimétriques. Si un noeud sort
 				une image en RGB, et qu'une opération attend du YUV, il peut les connecter ensemble. Le canal R sera interprété comme Y, le G comme
@@ -299,6 +329,9 @@
 
 				Intégrer un nouveau modèle colorimétrique se limite donc à créer des noeuds de conversions et les noeuds d'opération qui peuvent
 				tirer bénéfice de ce nouveau modèle.
+
+				L'édition nodale est cependant incapable de gérer les tons directs.
+			
 				
 			\subsubsection{Images gigapixel}
 				La complexité en temps et en mémoire de la rasterisation d'une image ne dépend tout au long du graphe que de la taille de
@@ -306,7 +339,8 @@
 				dépasse pas les quelques mégapixels. Il reste l'opération d'échelle à effectuer au niveau des région d'entrée. Si on
 				dispose de mipmaps de ces images, alors il est possible d'effectuer des opérations sur images gigapixels de manière efficace.
 			\subsubsection{Traitement d'images multiples}
-				Le même graphe peut très facilement s'appliquer sur un grand nombre d'images de manière automatique.
+				Le même graphe peut très facilement s'appliquer sur un grand nombre d'images de manière automatique, ce qui rend ces frameworks
+				particulièrement adaptés au traitement vidéo.
 				
 		\subsection{Fonctionalités inadaptées aux frameworks nodaux}
 			\subsubsection{Undo/Redo}
@@ -315,11 +349,20 @@
 				C'est pourquoi les graphes nécessitent souvent d'être rasterisés à nouveau ce qui peut prendre du temps lorsque celui ci contient
 				des filtres complexes. 
 			\subsubsection{Opération de dessin de primitves}
-				Un dessin requiert plusieurs centaines de milliers d'opérations de dessin de primitives pour sa réalisation. Or un noeud d'un
-				framework nodal est une entité complexe à gérer, et il devient impossible à l'utilisateur de gérer un graphe contenant autant
-				de noeuds. Sans parler de la consommation en mémoire du graphe, et de le surcharge de calcul qu'entraine les connections de noeud.
+				Il est tout à fait possible de créer des noeuds dessinant des primitives, et de les connecter entre eux pour avoir une topologie
+				semblant correspondre aux frameworks bitmaps ou vectoriels. 
 
-				On ne peut pas non plus se permettre de devoir recalculer toutes les opérations de dessin à chaque Undo/Redo.
+				Un premier problème est que les frameworks nodaux appliquent les opérations de transformations sur les pixels constituant la primitive et non sur les paramètres la définissant.
+				Par exemple, il sera impossible de récupérer l'apparence exacte de la primitive après une transformation d'échelle 
+				la réduisant à un seul pixel. Cet exemple extrême démontre comment à chaque transformation successive, la primitive est peu à peu
+				dégradée. Un framework vectoriel n'a pas ce genre de problèmes.
+				
+				Ensuite, un framework nodal est une entité complexe, et il devient impossible à l'utilisateur de gérer un graphe contenant 
+				autant de noeuds que nécessiterait la réalisation d'une peinture. Sans parler de la consommation en mémoire du graphe, 
+				et de la surcharge de calcul qu'entraine le parcours de celui-ci.
+
+				On ne peut pas non plus se permettre de devoir recalculer toutes les opérations de dessin à chaque Undo/Redo, à chaque édition
+				non destructive et à chaque nouvelle visualisation.
 
 				Les frameworks nodaux font donc souvent le choix d'ignorer totalement les opérations de dessin. Celles-ci sont alors effectuées
 				sur les images avant leur entrée dans le graphe, et doivent être gérées par un autre framework tel qu'un framework vectoriel ou bitmap.
@@ -327,6 +370,16 @@
 				Certains frameworks nodaux choisissent de proposer des noeuds qui regroupent une séquence d'opération de dessin en une seule.
 				Ces noeuds sont donc obligés de gérer par des mécanismes interne l'undo/redo. De tels noeuds fonctionnant comme des frameworks bitmaps
 				ils ne peuvent pas gérer des opérations de dessin de trop grande taille.
+			\subsubsection{Édition par pixel}
+				L'édition par pixel est problématique pour les mêmes raisons qui rendent problématique le dessin de primitives.
+		\subsection{Framework nodaux, l'état de l'art}
+			\begin{description}
+				\item[The Foundry Nuke]Logiciel de composition et post processing vidéo
+				\item[eyeon cineon]Logiciel de composition et post processing vidéo
+				\item[Blender3D]Utilisé pour la composition et le post processing vidéo, logiciel d'animation 3D open source.
+				\item[GEGL]Framework nodal open source utilisé par Gimp $\geq$ 2.7 et le logiciel d'acquisition numérique Gnome Scan.
+				\item[OpenRaster]Format d'image public permettant de sauvegarder des graphes d'opérations et compatible avec GEGL.
+			\end{description}
 
 	\section{Framework vectoriel}
 		\subsection{Schéma de représentation de l'image}
@@ -342,12 +395,12 @@
 			la position, l'échelle, et la rotation de la primitive et de ses enfants. La primitive est elle décrite par son type et les paramètres
 			qui déterminent sa forme et son apparence.
 
-			Le graphe de scène est acyclique. chaque noeud peut avoir plusieurs enfants et la plupart du temps un seul parent. 
+			Le graphe de scène est acyclique. chaque noeud peut avoir plusieurs enfants et sauf exception un seul parent. 
 
 			L'ordre des enfants d'un noeud est important puisqu'ils déterminent l'ordre dans lequel ils seront dessinés. Ainsi les derniers
 			enfants d'un noeuds seront dessinés au dessus des premiers. 
 
-			Chaque framework a sa propre liste de primitives géométriques, mais tous disposent au moins des points, lignes, ploygones, ellipses,
+			Chaque framework a sa propre liste de primitives géométriques, mais tous disposent au moins de points, lignes, ploygones, ellipses,
 			texte, et courbes de bézier.
 
 		\subsection{Algorithme de rasterisation}
@@ -382,11 +435,11 @@
 			\subsubsection{Opérations de dessin de primitives}
 				Les frameworks vectoriels sont très pratiques pour éditer un dessin constitué de primitives géométriques. Cependant, la région de
 				visualisation doit être rasterisée à chaque changement d'échelle ou à chaque déplacement de celle-ci. Si le nombre de primitives
-				constituant le dessin est trop grand, ceci ne peut plus se faire de manière interactive.
+				constituant le dessin est trop grand, cela ne peut plus se faire de manière interactive.
 				
 				Les frameworks vectoriels sont donc généralement utilisés pour les documents textuels, les cartes, les graphes, ou les dessins abstraits
 				qui peuvent être décrits par un petit nombre de primitives complexes. A contrario, les images peintes utilisent 
-				un trop grand nombre de primitives pour que de tels frameworks soient efficaces.
+				un trop grand nombre de primitives pour que de tels frameworks soient efficaces. 
 		\subsection{Fonctionalités inadaptées aux frameworks vectoriels}
 			\subsubsection{Filtres}
 				En associant les filtres aux noeuds on s'attend à ce que le filtre ne s'applique
@@ -396,16 +449,53 @@
 				Tout cela ralentit nettement la rasterisation, d'autant que le rendu dans de multiples buffer ne fait pas bon ménage avec 
 				l'accélération matérielle. Les frameworks proposent parfois de tels filtres, mais les performances suivent rarement.
 				
-				D'autres frameworks proposent des filtres avec des sémantiques plus complexes. TODO
-
+				Le format vectoriel SVG propose des sémantiques de filtres plus complexes. Le fait qu'aucun framework ne les implémente correctement
+				atteste de la difficulté de cette entreprise. 
+			\subsubsection{Composition non linéaire}
+				La structure arborescente du scene graphe ne permet pas de décrire des compositions non linéaires.
+			\subsubsection{Édition par pixel}
+				Éditer un pixel requiert de créer une primitive couvrant uniquement ce pixel. Si cela est possible, cela crée rapidement une trop
+				grande quantité de noeuds au fur et a mesure que chaque pixel est modifié. De plus, une telle description pose de gros problèmes
+				d'anti-aliasing pour les résolutions non natives. 
 			\subsubsection{Modèles colorimétriques}
 				Tant la description de l'image que l'algorithme de rasterisation sont peu adaptés au support de multiples modèles 
-				colorimétriques, à une exception près, celui des systèmes halftone qui décrivent l'image non en couleurs RGB, mais en terme de 
-				couches de couleurs correspondant aux encres disponibles à l'impression. 
+				colorimétriques, à une exception près, le modèle par nuancier. Dans ce cas chaque primitive est associée à une couleur du nuancier,
+				et à une opacité. L'image peut ainsi être envoyée sous forme vectorielle à l'imprimante qui va imprimer les primitives une à une
+				en respectant la structure du graphe de scène. L'image peut également être rasterisée pour obtenir pour chaque pixel la proportion
+				des encres à utiliser. 
+		\subsection{Framework Vectoriels, l'état de l'art}
+			\begin{description}
+				\item[Adobe Illustrator]Logiciel d'édition graphique vectorielle. 
+				\item[Corel Draw]Logiciel d'édition graphique vectorielle.
+				\item[Adobe Flash]Logiciel d'animation 2D
+				\item[Inkscape]Logiciel open source d'édition graphique vectorielle.
+				\item[libart]Librairie open source de rendu et d'édition graphique vectorielle, utilisée par Gnome Canvas, Inkscape.
+				\item[Cairo]Librairie open source de rendu et d'édition graphique vectorielle, utilisée par Mozilla Firefox, Webkit, Moonlight,
+				FontForge, Poppler, Gtk+
+				\item[Anti Grain Geometry]Librairie open source de rendu et d'édition graphique vectorielle, utilisée par Haiku OS.
+				\item[Qt4]Librairie d'interface graphique open source utilisée par KDE.
+				\item[Apple Quartz 2D]Librairie de rendu et d'édition graphique vectorielle, utilisé par Apple OSX et de nombreux logiciels de cette plateforme
+				\item[Microsoft GDI+]Librairie de rendu graphique vectoriel, utilisé par Microsoft Windows et de nombreux logiciels de cette plateforme.
+				\item[ai]Format d'image vectorielles.
+				\item[svg]Format public d'images vectorielles.
+				\item[ps]Format et langage de programation public décrivant des images vectorielles, obsolète à de nombreux égards mais toujours utilisé pour l'impression de documents.  
+			\end{description}
 
-	\section{Mégatexture ou VirtualTexture}
-		Le Megatexturing est une technique plus qu'un framework à part entière. Le but de cette technique est de permettre l'affichage et l'édition
-		d'images gigapixel en tant que textures de scènes 3D interactives.
+	\section{Mégatexturing ou Sparse Virtual Textures}
+		Les scènes 3D interactives sont de plus en plus grandes et détaillées. Or les détails sont limités par la taille des textures que l'on peut y
+		appliqué, qui sont elle même limitées par l'espace mémoire disponible sur la carte graphique. On était donc condamné jusqu'il y a peu à utiliser
+		une des trois techniques suivantes, ou de les combiner : 
+		\begin{itemize}
+			\item Une grande texture basse résolution
+			\item Une petite texture haute résolution qui se répète sur les surfaces
+			\item Des textures vectorielles.
+		\end{itemize}
+		Aucune de ces techniques ne peuvent texturer un large environnement de manière convaincante. 
+
+		Le Megatexturing, appelé aussi Sparse Virtual Texture est donc une technique d'affichage de textures plus qu'un framework à part entière. Le but de 
+		cette technique est de permettre l'affichage et l'édition d'images gigapixel en tant que textures de scènes 3D interactives. Une image gigapixel
+		étant suffisamment grande  pour couvrir l'intégralité de l'environnement à haute résolution.
+
 		\subsection{Schéma de représentation de l'image}
 			\begin{figure}[h]
 				\centering
@@ -426,10 +516,10 @@
 		\subsubsection{Affichage de l'image}
 			Pour afficher une texture sur un maillage 3D, on assigne à chaque vertice  du maillage une coordonnée $u,v$ correspondant à un pixel de cette texture.
 			de la texture. Comme nous désirons afficher la texture gigapixel, ces coordonnées correspondent aux pixels de cette texture.
-			Cette texture est cependant trop grande pour pouvoir être utilisée telle quelle.
+			Celle-ci est cependant trop grande pour pouvoir être utilisée telle quelle.
 			
 			Pour résoudre ce problème on place les tiles qui nous intéressent dans une texture virtuelle qui est suffisemment petite pour pouvoir
-			être utilisée pour l'affichage. Un \emph{pixel shader} est ensuite utilisé pour traduire à l'affichage les coordonnées $u,v$ de la
+			être utilisée pour l'affichage. Un \emph{pixel shader} est ensuite utilisé pour traduire lors de l'affichage les coordonnées $u,v$ de la
 			texture gigapixel en les coordonnées $m,n$ de la texture virtuelle. 
 
 			Pour déterminer quels tiles nous intéressent, on s'aide d'un premier rendu dans lequel on examine quelles régions de la texture gigapixel
@@ -437,10 +527,63 @@
 			affichée. Comme la résolution de l'écran est plus petite que celle de la taille de la texture virtuelle, on disposera toujours d'une place
 			suffisante pour couvrir la quantité de texture affichée.
 
+			Récupérer les tiles sur le disque implique un délai non négligeable. Le megatexturing incorpore des techniques permettant de pallier à
+			ce problème qui sortent du cadre de cette présentation.
+
 		\subsubsection{Édition de l'image}
 			Pour générer et éditer l'image gigapixel, on utilise la technique précédente pour l'affichage, et on utilise les techniques de framework 
 			bitmap pour appliquer les opérations; Celles-ci sont directement rasterisées dans la pyramide de tiles.
-	\section{Comparaison}
+		\subsubsection{État de l'art du MegaTexturing}
+			Le Megatexturing à été développé par John Carmack d'id Software pour le moteur de jeu idTech4 et idTech5. Cette technique est utilisé
+			par les jeux utilisant ces moteurs. D'autres moteurs tels que Torque ont réimplémenté cette technique.
+
+	\section{Comparaison des différents framework}
+
+	\begin{table*}
+		\label{comparaison}
+		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} | l || c | c | c | c |}
+			\hline
+			Fonctionalité	 		& Bitmap 		& Nodal 		& Vectoriel 		& Himalaya 	\\
+			\hline \hline	                                                                                                          
+			Dessin de primitives	   	& $\medbullet$		& $\ominus$		& $\medbullet$	 	& $\medbullet$	\\
+			Peinture		   	& $\medbullet$		& $\ocircle$		& $\ominus$		& $\medbullet$	\\
+			Filtres	colorimétriques	   	& $\medbullet$		& $\medbullet$		& $\ominus$		& $\medbullet$	\\
+			Filtres	spatiaux	   	& $\medbullet$		& $\medbullet$		& $\ominus$		& $\ocircle$	\\
+			Transformations géométriques   	& $\ominus$		& $\ominus$		& $\medbullet$	 	& $\ominus$	\\
+			Modes de fusion		   	& $\medbullet$		& $\medbullet$		& $\medbullet$	 	& $\medbullet$	\\
+			Modèles colorimétriques	   	& $\ominus$		& $\medbullet$		& $\ominus$	 	& $\medbullet$	\\
+			Ton direct		   	& $\ominus$		& $\ocircle$		& $\medbullet$	 	& $\ocircle$	\\
+			Modèles étendus		   	& $\ocircle$		& $\medbullet$		& $\ocircle$	 	& $\ocircle$	\\
+			Undo/Redo		   	& $\medbullet$		& $\ominus$		& $\medbullet$	 	& $\medbullet$	\\
+			Édition non destructive	   	& $\ocircle$		& $\medbullet$		& $\medbullet$	 	& $\medbullet$	\\
+			Composition non linéaire	& $\ocircle$		& $\medbullet$		& $\ocircle$	 	& $\medbullet$	\\
+			Édition par pixel		& $\medbullet$		& $\ocircle$		& $\ocircle$	 	& $\ominus$	\\
+			Indépendance à la résolution	& $\ocircle$		& $\ominus$		& $\medbullet$	 	& $\ocircle$	\\
+			Images Gigapixel		& $\ocircle$		& $\medbullet$		& $\medbullet$	 	& $\medbullet$	\\
+			Traitement d'images multiples	& $\ominus$		& $\medbullet$		& $\ocircle$	 	& $\ominus$	\\
+			\hline
+			\multicolumn{5}{|l|}{ \tiny $\medbullet$ : Fonctionalité adaptée au framework.} \\
+			\multicolumn{5}{|l|}{ \tiny $\ominus$ : Fonctionalité implémentable dans le framework, mais de manière limitée ou peu performante.} \\ 
+			\multicolumn{5}{|l|}{ \tiny $\ocircle$ : Fonctionalité inadaptée au framework.}	\\
+			\hline
+		\end{tabular*}
+		\caption{Grille de comparaison des fonctionalités. }
+	\end{table*}
+
+	Le tableau~\ref{comparaison}, (page~\pageref{comparaison}) permet d'avoir une vision globale des fonctionalités supportées par les différents 
+	types de framework. On remarque que les frameworks proposent des fonctionalités très différentes, ce qui explique pourquoi chaque 
+	domaine d'application tend à préférer un framework en particulier.
+
+	Ce tableau permet aussi de comparer les frameworks existants aux fonctionalités adaptées au framework Himalaya qui est présenté dans ce mémoire. Cette
+	comparaison reste en partie théorique puisque toutes ces fonctionalités n'ont pas été implémentées et soumises à des tests utilisateurs. 
+	
+	Néanmoins ce framework propose une combinaison intéressante de fonctionalité en combinant Peinture, Dessin de primitives, Édition non destructive, 
+	Composition non linéaire et Images gigapixel. Non repris dans ce tableau est la possibilité -- encore théorique -- de pouvoir utiliser la technique
+	de megatexture en combinaison avec \emph{Himalaya} afin de permettre l'edition non destructive des textures d'une scène 3D temps réel.
+
+	La suite de ce mémoire se concentrera sur la présentation de l'architecture et des fonctionalités de base du framework Himalaya, pour se concentrer
+	ensuite sur l'implémentation et l'évaluation par test utilisateurs des fonctionalités de peinture et d'édition d'images gigapixel.
+
 \chapter{Framework Himalaya (20 pages) }
 	\section{Structures de données}
 		\subsection{Frame}
