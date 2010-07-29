@@ -2,22 +2,28 @@
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
 %\usepackage[T1]{fontenc}
-\usepackage{cmbright}
 \usepackage{makeidx}
 %\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
-\usepackage{graphicx}
+\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
 \usepackage{subfig}
 \usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{wasysym}
+\usepackage{txfonts}
+\usepackage{cmbright}
 %\textwidth 17cm
 %\oddsidemargin 0cm
 %\evensidemargin -1cm
 
-\title{Analyse d'un framework d'édition dynamique et interactive d'images gigapixel.}
+\title{Conception, implémentation et analyse d'un framework d'édition interactive d'images gigapixel.}
 \author{Frédéric van der Essen \\ Promoteurs: Philip Dutré, Marc Lobelle.}
 \makeindex
 \begin{document}
 	\maketitle
-	\include{body}
+	%\include{body}
+	\include{chapter1}
+	%\include{chapter2}
 	\tableofcontents
 	\printindex
 \end{document}
