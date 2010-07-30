@@ -1,21 +1,80 @@
+
+\chapter*{Abstract}
+	Les images gigapixel ont un grand nombre d'applications, de l'art à la médecine en passant par la cartographie. Et plus 
+	récemment, les jeux vidéos. Les techniques photographiques permettant de les générer ne manquent pas, l'espace stockage 
+	et la bande passante non plus. Cependant les possibilités d'édition et de retouche numérique étaient jusqu'à présent 
+	très limitées, aucun framework d'édition d'image ne se révélant satisfaisant. Une ébauche d'un nouveau concept de framework,
+	conçu et réalisé par l'auteur, promettait des performances quasi indépendantes de la taille de l'image éditée, permettant ainsi 
+	l'édition interactive d'images gigapixel
+
+	Afin de vérifier ces promesses, l'implémentation du framework fut partiellement complétée, afin de se concentrer sur un problème restreint;
+	la peinture d'images gigapixel. Cela révéla des problèmes de qualité et de performances,
+	qui furent pour la plupart résolus de manière satisfaisante. Un logiciel de peinture utilisant ce framework fut ensuite 
+	complété puis testé par 3 professionels de l'art numérique afin d'évaluer la performance du framework et de son implémentation. 
+
+	Les tests se sont conclus par la satisfaction des testeurs et la réalisation de plusieurs peintures gigapixel. 
+
+	De nombreuses fonctionalités du framework restent cependant à implémenter et à tester, de même que de nombreuses pistes
+	d'amélioration des performances ont été ouvertes et restent à explorer.
+	
+
+\chapter*{Préface}
+	Ce rapport présente le résultat de mon mémoire réalisé au département de recherche en infographie de la \emph{Katholieke Universiteit Leuven}.
+	Ce mémoire est également la conclusion de mon master d'ingénieur en informatique à L'\emph{Université Catholique de Louvain}.
+
+	J'aimerais remercier les personnes suivantes: Philip Dutré qui fut mon superviseur à la KUL, Benedict J. Brown pour l'avoir assisté dans cette
+	tâche, et Marc Lobelle pour avoir été mon promoteur à l'UCL. J'aimerais également remercier les mémorants du département de recherche en infographie
+	de la KUL pour leurs discussions et commentaire à propos de ce mémoire. 
+
+	Enfin j'aimerais remercier Brice Vandemoortele, Jean-François Brogniet et Jean-Philippe Servais pour avoir participé aux tests utilisateur.
+
+\chapter{Introduction}
+	Les images gigapixel sont des images bitmap constituées de plus d'un milliard de pixel. Ces images apparaissent dans plusieurs domaines: la cartographie,
+	avec les photographies satellites; la médecine, avec les images issues des microscopes; l'histoire et la préservation de l'art, avec des scans haute 
+	résolutions de tableaux et fresques de grande taille; L'art numérique et également le jeu vidéo qui utilisent de telles images pour la création
+	de larges environnements. 
+
+	Les algorithmes de compression et le faible coût de l'espace disque permettent de stocker sans encombre de telles images. Il existe également des logiciels
+	de visualisation efficace. Cependant, lorsqu'il s'agit de les éditer, les logiciels existant ne proposent qu'une sélection très réduite des fonctionalités
+	proposées habituellement pour l'édition d'image mégapixel.  
+
+	L'édition de telles images requiert une approche et des algorithmes différents. C'est ce que propose le framework nommé \emph{Himalaya}, conçu et
+	partiellement implémenté au préalable par l'auteur de ce mémoire.  \emph{Himalaya} est un framework conçu pour pouvoir proposer la plupart des
+	fonctionalités des frameworks existants, avec des performances quasi indépendantes de la taille de l'image à éditer. 
+
+	Cependant il y a un pas entre la conception et la réalisation, pas que nous avons partiellement franchi avec ce mémoire. En effet, l'implémentation
+	complète du framework est une tâche d'une trop grande empleur pour être envisagée ici. Nous avons donc fait le choix de se concentrer sur un
+	sous-problème difficile, qui est de permettre de peindre de manière interactive une image gigapixel, fonctionalité qui n'est proposée par aucun
+	framework existant.
+
+	Avant d'examiner en détail le framework \emph{Himalaya} il est important de se demander ce qu'est un framework d'édition d'image, quelles sont les
+	fonctionalités utiles et nécessaires de ceux-ci. Enfin il faudra regarder de quelle manière les frameworks existant proposent ces fonctionalités,
+	afin de comprendre les enjeux de conception. C'est ce que nous allons faire au prochain chapitre. 
+	
+	
 \chapter{Présentation des frameworks d'édition d'images}
 	
-	Dans ce mémoire nous discuterons d'un ensemble d'algorithmes constituant un framework
-	de rendu et d'édition d'images nommé \emph{Himalaya}. Par le terme framework nous entendons une
-	librairie présentant une interface logicielle permettant a un utilisateur d'éditer des images. \index{Framework d'edition d'images}
-	Par utilisateur nous entendons l'artiste qui utilise un logiciel d'éditon, le programmeur qui utilise le framework pour
-	concevoir un logiciel, mais aussi un autre programme qui ferait appel à celui ci.  De tels frameworks sont en effet utilisés
-	par des applications fort variées, comme les logiciels de peinture, d'édition 3D, les jeux vidéos, les logiciels de cartographie,
-	les interfaces multimédias, etc.
 
-	Nous allons tout d'abord examiner quels sont les éléments qui consitituent un tel framework, ensuite quels sont
-	les fonctionalités qu'ils doivent présenter à l'utilisateur et enfin les différentes manières de les implémenter,
-	afin de voir où se situe \emph{Himalaya} dans le paysage des frameworks d'édition d'images.
+	Un framework est une librairie présentant une interface logicielle permettant a un utilisateur d'éditer des images. 
+	
+	\index{Framework d'edition d'images}
+	Le terme utilisateur sera employé pour désigner en toute généralité des choses assez différentes. Ainsi il désignera parfois 
+	l'artiste qui utilise le logiciel d'éditon, le programmeur qui utilise le framework pour
+	concevoir un logiciel, mais aussi un autre programme qui ferait appel à celui ci.  
 
-	Pour réaliser cette présentation nous nous sommes basé sur une lecture du code source des différents frameworks open-source, afin d'évaluer
-	les structures de données et les algorithmes utilisés. Nous avons également étudié les fonctionalités et performances des
-	logiciels fermés. Enfin, une étude des spécifications des principaux formats de fichiers standards permet de se rendre compte des
-	fonctionalités qui sont attendues dans les frameworks. 
+	Nous allons tout d'abord examiner quels sont les éléments qui constituent un tel framework, ensuite quels sont
+	les fonctionalités qu'ils doivent présenter à l'utilisateur. 
+
+	Ensuite un survol des différents frameworks permettra des principes généraux de la conception d'un framework d'édition d'image.
+	
+	Pour réaliser cette présentation je me suis basé sur une lecture du code source des différents frameworks open-source, afin d'évaluer
+	les structures de données et les algorithmes utilisés. J'ai également étudié les fonctionalités et performances des logiciels fermés,
+	qui bien que gardant secret leur fonctionnement, proposent généralement de meilleures performances et un plus large panel de fonctionalités.
+	
+	Enfin, une étude des spécifications des principaux formats de fichiers standards permet de se rendre compte des fonctionalités qui sont 
+	attendues dans les frameworks. 
+
+	Après chaque description de chaque framework on trouvera la liste des formats et logiciels ainsi examinés.
 
 	\section{Architecture d'un framework d'édition d'image}
 		Un framework d'édition d'images est composé de trois éléments principaux : 
@@ -24,7 +83,7 @@
 			décrivent l'image et les modifications qui lui sont apportées. 
 			\item[Algorithme de rasterisation]: Cet algorithme permet d'obtenir une version matricielle de l'image,
 			ou d'une partie de celle-ci. Une telle opération est indispensable car seule la forme matricielle de l'image
-			peut être affichée ou imprimée. 
+			peut être affichée à l'écran.
 			\item[Algorithmes d'édition du schéma]: Ces algorithmes vont modifier la représentation de l'image afin 
 			d'implémenter les différentes fonctionalités du framework.
 		\end{description}
@@ -43,7 +102,9 @@
 				nombre réduit de primitives complexes (texte, courbes de bézier,...), et l'approche bitmap ou l'on utilise
 				un très grand nombre de primitives très simples(ellipses, petits bitmaps, ...) Pour cette seconde approche
 				il est important que cette opération soit peu couteuse en temps et en mémoire, étant donné qu'une peinture
-				peut être constituée de plusieurs millions de telles primitives.
+				peut être constituée de plusieurs millions de telles primitives. 
+
+				C'est cette seconde approche que nous explorerons avec la peinture d'images gigapixel.
 
 				\index{Primitives, dessin de}
 				\begin{figure}[h]
@@ -168,13 +229,15 @@
 		\subsection{Édition par pixel}
 			Certains frameworks permettent d'éditer individuellement chaque pixel de l'image. 
 		\subsection{Indépendance à la résolution}
-			Dans ce cas la description de l'image est indépendante de la résolution utilisée pour la rasterisation; Il n'y a pas de dégradation
+			La description de l'image est indépendante de la résolution utilisée pour la rasterisation; Il n'y a pas de dégradation
 			de la qualité de l'image quelque soit la résolution utilisée pour le rendu. L'édition par pixel et l'indpendance à la résolution
 			sont deux fonctionalités mutuellement exclusives.
 		\subsection{Images gigapixels}
 			Les images gigapixels sont les images constituées de plus d'un milliard de pixel, qui peuvent être plus grandes que la mémoire
-			vive disponible. Avec l'évolution des capteurs photographiques et des espaces de stockages, ce type d'image est utilisé de plus en plus
-			fréquemment. Astronomie, cartographie, jeux vidéos, sont autant de domaines faisant usage de telles images. 
+			vive disponible. Il ne faut pas confondre édition d'images gigapixel et indépendance à la résolution.
+			Si l'indépendance à la résolution permettent de décrire des documents de tailles aussi grande
+			que désirée et de les rasteriser en des images gigapixel,ils ne permettent pas de décrire ou d'éditer des images
+			de plus d'un milliard de pixels indépendants. 
 
 		\subsection{Traitement d'images multiples}
 			Le traitement d'images multiples consiste à savoir appliquer facilement les mêmes opérations sur un large nombre d'images similaires, 
@@ -252,7 +315,7 @@
 			\subsubsection{Images gigapixel}
 				Il est théoriquement possible de gérer des images de taille plus grande que la mémoire disponible en utilisant les tiles à
 				bon escient. Mais en pratique, chaque opération nécessite d'être appliquée intégralement sur l'image à résolution native, 
-				ce qui est infaisable pour des opérations modifiant de grandes parties de l'image.
+				ce qui est infaisable de manière interactive pour des opérations modifiant de grandes parties de l'image.
 			\subsubsection{Édition non destructive}
 				L'édition non destructive requiert de garder une liste de toutes les opérations effectuées sur l'image, afin de pouvoir
 				modifier l'opération désirée, et de refaire celles qui doivent être réappliquées. 
@@ -367,15 +430,19 @@
 				Les frameworks nodaux font donc souvent le choix d'ignorer totalement les opérations de dessin. Celles-ci sont alors effectuées
 				sur les images avant leur entrée dans le graphe, et doivent être gérées par un autre framework tel qu'un framework vectoriel ou bitmap.
 
-				Certains frameworks nodaux choisissent de proposer des noeuds qui regroupent une séquence d'opération de dessin en une seule.
+				Certains frameworks nodaux (GEGL) choisissent de proposer des noeuds qui regroupent une séquence d'opération de dessin en une seule.
 				Ces noeuds sont donc obligés de gérer par des mécanismes interne l'undo/redo. De tels noeuds fonctionnant comme des frameworks bitmaps
-				ils ne peuvent pas gérer des opérations de dessin de trop grande taille.
+				ils ne peuvent pas gérer des opérations de dessin de trop grande taille. 
+				
+				Ces frameworks permettent donc de peindre sur des images gigapixel, mais chaque trait de peinture doit rester de taille mégapixel,
+				ce qui limite l'utilité de cette fonctionalité dans le cadre d'édition d'images gigapixel.
+
+
 			\subsubsection{Édition par pixel}
 				L'édition par pixel est problématique pour les mêmes raisons qui rendent problématique le dessin de primitives.
 		\subsection{Framework nodaux, l'état de l'art}
 			\begin{description}
 				\item[The Foundry Nuke]Logiciel de composition et post processing vidéo
-				\item[eyeon cineon]Logiciel de composition et post processing vidéo
 				\item[Blender3D]Utilisé pour la composition et le post processing vidéo, logiciel d'animation 3D open source.
 				\item[GEGL]Framework nodal open source utilisé par Gimp $\geq$ 2.7 et le logiciel d'acquisition numérique Gnome Scan.
 				\item[OpenRaster]Format d'image public permettant de sauvegarder des graphes d'opérations et compatible avec GEGL.
@@ -428,10 +495,6 @@
 				modification de l'image. Cela n'est pas un problème tant que la taille du graphe de scène reste raisonnable.
 			\subsubsection{Undo / Redo}
 				L'undo/redo est simple à implémenter et aussi efficace que l'édition non destructive. 
-			\subsubsection{Images gigapixel}
-				Les frameworks vectoriels décrivant l'image de manière analytique peuvent gérer des images de toutes tailles et résolutions. De 
-				plus la description vectorielle utilise beaucoup moins de mémoire. Ces frameworks sont pour l'instant la solution de 
-				choix pour la description de telles images.
 			\subsubsection{Opérations de dessin de primitives}
 				Les frameworks vectoriels sont très pratiques pour éditer un dessin constitué de primitives géométriques. Cependant, la région de
 				visualisation doit être rasterisée à chaque changement d'échelle ou à chaque déplacement de celle-ci. Si le nombre de primitives
@@ -457,6 +520,10 @@
 				Éditer un pixel requiert de créer une primitive couvrant uniquement ce pixel. Si cela est possible, cela crée rapidement une trop
 				grande quantité de noeuds au fur et a mesure que chaque pixel est modifié. De plus, une telle description pose de gros problèmes
 				d'anti-aliasing pour les résolutions non natives. 
+			\subsubsection{Images gigapixel}
+				Les frameworks vectoriels décrivant l'image de manière analytique peuvent gérer des images de toutes tailles et résolutions. De 
+				plus la description vectorielle utilise beaucoup moins de mémoire. Ces frameworks sont donc pour l'instant la solution de choix
+				pour décrire des documents de grande taille. Cependant il ne s'agit pas là à proprement parler d'images gigapixel.  
 			\subsubsection{Modèles colorimétriques}
 				Tant la description de l'image que l'algorithme de rasterisation sont peu adaptés au support de multiples modèles 
 				colorimétriques, à une exception près, le modèle par nuancier. Dans ce cas chaque primitive est associée à une couleur du nuancier,
@@ -472,10 +539,6 @@
 				\item[libart]Librairie open source de rendu et d'édition graphique vectorielle, utilisée par Gnome Canvas, Inkscape.
 				\item[Cairo]Librairie open source de rendu et d'édition graphique vectorielle, utilisée par Mozilla Firefox, Webkit, Moonlight,
 				FontForge, Poppler, Gtk+
-				\item[Anti Grain Geometry]Librairie open source de rendu et d'édition graphique vectorielle, utilisée par Haiku OS.
-				\item[Qt4]Librairie d'interface graphique open source utilisée par KDE.
-				\item[Apple Quartz 2D]Librairie de rendu et d'édition graphique vectorielle, utilisé par Apple OSX et de nombreux logiciels de cette plateforme
-				\item[Microsoft GDI+]Librairie de rendu graphique vectoriel, utilisé par Microsoft Windows et de nombreux logiciels de cette plateforme.
 				\item[ai]Format d'image vectorielles.
 				\item[svg]Format public d'images vectorielles.
 				\item[ps]Format et langage de programation public décrivant des images vectorielles, obsolète à de nombreux égards mais toujours utilisé pour l'impression de documents.  
@@ -549,11 +612,12 @@
 			Peinture		   	& $\medbullet$		& $\ocircle$		& $\ominus$		& $\medbullet$	\\
 			Filtres	colorimétriques	   	& $\medbullet$		& $\medbullet$		& $\ominus$		& $\medbullet$	\\
 			Filtres	spatiaux	   	& $\medbullet$		& $\medbullet$		& $\ominus$		& $\ocircle$	\\
-			Transformations géométriques   	& $\ominus$		& $\ominus$		& $\medbullet$	 	& $\ominus$	\\
+			Transformations vectorielles   	& $\ocircle$		& $\ocircle$		& $\medbullet$	 	& $\ocircle$	\\
+			Transformations bitmap   	& $\medbullet$		& $\medbullet$		& $\ominus$	 	& $\ominus$	\\
 			Modes de fusion		   	& $\medbullet$		& $\medbullet$		& $\medbullet$	 	& $\medbullet$	\\
 			Modèles colorimétriques	   	& $\ominus$		& $\medbullet$		& $\ominus$	 	& $\medbullet$	\\
 			Ton direct		   	& $\ominus$		& $\ocircle$		& $\medbullet$	 	& $\ocircle$	\\
-			Modèles étendus		   	& $\ocircle$		& $\medbullet$		& $\ocircle$	 	& $\ocircle$	\\
+			Modèles étendus		   	& $\ocircle$		& $\medbullet$		& $\ocircle$	 	& $\ominus$	\\
 			Undo/Redo		   	& $\medbullet$		& $\ominus$		& $\medbullet$	 	& $\medbullet$	\\
 			Édition non destructive	   	& $\ocircle$		& $\medbullet$		& $\medbullet$	 	& $\medbullet$	\\
 			Composition non linéaire	& $\ocircle$		& $\medbullet$		& $\ocircle$	 	& $\medbullet$	\\
@@ -582,11 +646,168 @@
 	de megatexture en combinaison avec \emph{Himalaya} afin de permettre l'edition non destructive des textures d'une scène 3D temps réel.
 
 	La suite de ce mémoire se concentrera sur la présentation de l'architecture et des fonctionalités de base du framework Himalaya, pour se concentrer
-	ensuite sur l'implémentation et l'évaluation par test utilisateurs des fonctionalités de peinture et d'édition d'images gigapixel.
+	ensuite sur l'implémentation et l'évaluation par test utilisateurs des fonctionalités de peinture et d'édition d'images gigapixel, combinaison de
+	fonctionalité n'étant proposée par aucun des frameworks existants.
 
 \chapter{Framework Himalaya (20 pages) }
+	Himalaya est un framework d'édition d'image s'inspirant des frameworks nodaux et de la technique de megatextures. Il fut conçu par moi même avant la
+	réalisation de ce mémoire dans le but de créer un logiciel de peinture permettant l'édition non destructive, la composition non linéaire, et d'être
+	compatible avec la technique de mégatexture afin de pouvoir être utilisé dans le jeu vidéo. 
+
+
 	\section{Structures de données}
-		\subsection{Frame}
+		\subsection{Les Tiles}
+		Comme dans bien d'autres framework, les images d'himalaya sont divisés en grilles de tiles. Un tile est donc un bitmap rectangulaire correspondant
+		à une petite région de l'image. Himalaya fait un plus grand usage des tiles que d'autres frameworks puisque toute opération prend des tiles
+		en entrée et en sortie. Un tile représente donc la plus petite unité de traitement, et un intérèt particulier doit être apporté à sa conception.
+
+		\subsubsection{Structure du tile}
+			Il y a trois caractéristiques importantes à prendre en compte lorsque l'on conçoit un tile:
+			\begin{description}
+				\item[Sa taille en mémoire]Un premier intérèt des tiles est qu'ils sont une unité de mémoire pouvant être suffisemment petite
+				pour tenir intégralement dans les caches du processeur et ainsi éviter des accès cache invalides fort coûteux en temps de calcul.
+				Les processeurs de différent modèles ont différentes taille de cache et différentes manières de les gérer. Plus le tile est petit,
+				plus il sera rapide de les traiter sur une grande gamme de processeurs.
+				
+				Cependant, si le tile est trop petit, les gains réalisés par sa taille sont perdu par la surcharge de travail que doit faire le
+				framework pour gérer ces tiles. 
+
+				En outre, si tous les tiles ont la même taille en mémoire, on réduit les risques de fragmentation, et on peut faire des
+				allocateurs optimisés qui allouent les tiles de manière contigue et réutilisent les tiles libérés.
+
+				\item[Sa taille en pixel] Si tous les pixels ont la même taille en pixel, alors les images de dimensions égales seront
+				toujours divisées en tiles de la même manière, ce qui rend plus simples beaucoup d'algorithmes du framework.
+				la programmation des opérations en sera également facilitée. 
+
+				Cependant, un framework moderne doit prendre en compte la gestion de modèles colorimétriques, et niveaux de quantification
+				différents. La représentation d'un pixel peut donc avoir des empreintes mémoire différentes, il faudra donc choisir entre
+				avoir des tiles de même taille pixel, ou des tiles de même taille mémoire.
+
+			\begin{figure}[h]
+				\centering
+				\subfloat[Un tile normal]{ \label{fig:render} \includegraphics[width=0.5\textwidth]{images/tile-a} }
+				\subfloat[Un tile aux canaux séparés]{ \label{fig:render-hsv} \includegraphics[width=0.5\textwidth]{images/tile-b} }
+				\caption{Deux structures de tiles}
+				\label{fig:tilestruct}
+			\end{figure}
+				\item[La répartition des pixels dans le tile] La manière commune de représenter un pixel au sein d'un bitmap est d'avoir
+				toutes ses composantes placées dans des emplacement contigus. Une autre manière est de placer chaque composante dans un
+				bitmap séparé. Un tile étant alors constitué de plusieurs bitmaps. L'intéret de cette technique est que les tiles de même
+				quantisation ont la même taille en pixel, et les bitmaps les constituant la même taille en mémoire. Un autre intérèt est
+				qu'il est maintenant beaucoup plus facile de programmer des opérations qui peuvent gérer un nombre quelconque de composantes
+				par pixel.
+
+				Cependant, cela implique que l'accès à un pixel nécessite autant d'accès mémoires que de composantes, ce qui ralentit 
+				l'exécution du programme. 
+			\end{description}
+
+		\subsubsection{Comparaison des tiles}
+			Le tableau TODO représente le résultat d'expériences qui résument les concepts précedemment exposés. Dans ce tableau, deux opérations
+			sont testées : \emph{colorfill} consiste à remplir une image de $8192^2$ pixels \emph{RGBA} 8bits/composante d'une couleur unie. \emph{blend} consiste 
+			en fusionner deux images de $8192^2$ pixels \emph{RGBA} 8 bits/composante par opacité. Ces deux opérations 
+			sont utilisées très couramment pour la réalisation de peintures. 
+
+			Ces opérations sont appliquées selon des schémas différents: \emph{colorfill\_full} remplit tous les tiles de l'image, alors que \emph{colorfill\_single}
+			remplit un tile choisit au hasard autant de fois qu'il y a de tiles dans l'image. Le même nombre de pixels est donc traité dans les deux tests,
+			mais le second devra accéder régulièrement à de nouvelles zones mémoire.
+
+			Même chose pour les operations \emph{blend} : \emph{blend\_full} fusionne les tiles des deux images, \emph{blend\_single} fusionne deux tiles
+			sélectionnés au hasard, \emph{blend\_intermediate} fusionne toute l'image sur un seul tile. Ce dernier test est fort représentatif de la
+			manière dont les tiles sont utilisés dans Himalaya.
+
+			Ensuite les tiles normales sont comparées aux tiles à canaux séparés. 
+			
+
+			\begin{table*}
+				\label{tileperf}
+				\tiny
+				\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} | r | c || c | c | c | c | c | c | c | c | c |}
+					\hline
+					\multicolumn{2}{|r||}{Largeur des tiles}& 8	& 16	& 32	& 64	& 128	& 256	& 512	& 1024	& 2048	\\
+					\hline 
+					Test	& Tile &\multicolumn{9}{ c|}{Temps de calcul moyen sur 5 expériences (secondes)}\\
+					\hline
+					\emph{colorfill\_single} & Normal 	& 0.78	& 0.64 	& 0.58	& 0.57	& 0.49	& 0.28	& 0.28	& 0.28	& 0.31	\\
+					\emph{colorfill\_full} & Normal 	& 1.14	& 0.7 	& 0.65	& 0.63	& 0.55	& 0.44	& 0.47	& 0.44	& 0.51	\\
+					\emph{colorfill\_single}& Séparé 	& 1.30	& 1.06 	& 1.04	& 1.06	& 0.97	& 0.79	& 0.79	& 0.79	& 0.80	\\
+					\emph{colorfill\_full} & Séparé 	& 2.14	& 1.39 	& 1.16	& 1.12	& 1.10	& 1.03	& 1.00	& 1.01 & 1.01	\\
+					\hline\hline
+					\emph{blend\_single} & Normal 		& -	& 3.12 	& 2.98	& 3.0	& 3.08	& 4.16	& 13.58	& 19.97	& 22.60	\\
+					\emph{blend\_inter} & Normal 		& -	& 5.31 	& 5.20	& 4.96	& 5.12	& 4.85	& 13.49	& 20.46	& 20.64	\\
+					\emph{blend\_full} & Normal 		& -	& 5.39 	& 5.19	& 5.17	& 5.0	& 5.42	& 13.15	& 20.44	& 21.12	\\
+					\emph{blend\_single}& Séparé		& -	& 6.29 	& 5.64	& 5.39	& 6.61	& 6.50	& 18.67	& 27.48	& 28.92	\\
+					\emph{blend\_inter}& Séparé		& -	& 6.55 	& 5.69	& 5.50	& 6.55	& 6.74	& 20.22	& 27.77	& 27.48	\\
+					\emph{blend\_full} & Séparé	 	& -	& 6.68 	& 5.82	& 5.45	& 6.59	& 6.78	& 18.39	& 27.41 & 27.23	\\
+					\hline
+				\end{tabular*}
+			\end{table*}
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=\textwidth]{images/tilegraph.eps} 
+				\label{fig:tilegraph}
+			\end{figure}
+		\subsubsection{Analyse des performances}
+			On peut tirer plusieurs conclusion de ces expériences:
+			\begin{itemize}
+				\item Les tiles doivent être les plus grands possibles, pour diminuer le 
+			nombre d'appels de fonctions, mais ne doivent pas être trop grands, sinon les performances sont très fortement dégradées. 
+				\item Les tiles à canaux séparés sont jusque 2 fois plus lents que les tiles normaux.
+				\item Le schémà d'accès aux tiles en mémoire a un impact non négligable mais plus marqué sur les tiles normaux.
+				\item Le temps pour faire la fusion d'un même nombre de pixels peut différer de 970\% selon le type de tile, sa taille et la
+				manière dont il est utilisé, puisque cette opération représente la grande majorité du temps de calcul du framework, ce choix
+				est particulièrement important.
+			\end{itemize}
+			Enfin, il ne faut pas oublier que ces expériences ommettent deux facteurs importants: Le fait que la gestion des tiles dans le framework 
+			est bien plus lourde, ce qui favorise les tiles plus grands, et le fait que les tiles plus petits permettent plus de précision dans 
+			la localisation des opérations, ce qui permet de réduire le nombre de pixels accédés à chaque opération.
+
+			Déterminer l'importance de ces deux facteurs requiert d'avoir des données d'utilisation du framework représentatives, par exemple
+			avec des tests utilisateur. 
+		\subsubsection{Structure finale}
+			Le choix s'est porté sur des tiles normaux de taille fixe de $32\times32$ pixels, et ce quelque soit le modèle colorimétrique utilisé.
+		\subsection{Les Frames}
+			La Frame est la structure de donnée qui organise les tiles. Elle a deux utilités: Représenter une image bitmap et servir de cache aux
+			résultats des opérations. La Frame est en fait une pyramide de tiles creuse, implémentée par des Quad-Trees.
+			\subsubsection{Les Quad-Trees}
+				Les Quad-Trees sont composés de FrameNodes. Ceux-ci sont une référence optionelle vers un tile, et quatre références, optionelles,
+				vers des noeuds enfants. La tile référencée par le noeud représentant les quatres tiles des noeuds enfants à une échelle deux
+				fois plus petite.
+
+				Chaque ensemble de noeuds de la même profondeur représente ainsi un bitmap à l'échelle deux fois plus petite que l'ensemble de
+				noeuds à la profondeur suivante.
+
+			\subsubsection{Placer une image dans le Quad-Tree}
+				Afin d'éviter d'avoir des Quad-Trees inutilement profond, les images sont stoquées au niveau le moins profond pouvant les contenir,
+				soit $ceil( \log_2( max(size_x,size_y)/32))$, $size_x$,$size_y$ représentant la largeur et la hauteur de l'image en pixels.
+				Cette profondeur est ensuite stoquée dans la Frame afin de pouvoir identifier le niveau de résolution native.
+
+			\subsubsection{Référencer les Tiles dans le Quad-Tree}
+				Les tiles sont référencés par trois coordonnées $(t_x,t_y,t_z)$. $t_x,t_y$ représente les coordonnées spatiales du tile, $t_x$ valant
+				zéro à l'extrémité gauche du bitmap, et étant positif à droite. $t_y$ vaut zéro à l'extrémité supérieure du bitmap et est positif vers le bas,
+				et ce quelque soit l'échelle représentée.
+				
+				$t_z$ représente le niveau d'échelle. Il vaut $0$ au niveau le plus profond, correspondant à la résolution native, et est positif
+				pour les échelles inférieures. En effet, si l'on aggrandit ou réduit l'image, on modifie la profondeur du quad-tree, et donc la profondeur à 
+				laquelle se trouve la résolution native. Cette définition du $t_z$ permet donc de référencer les tiles de l'image indépendemment de leur taille.
+				
+				Sa valeur maximale dépend donc de la taille de l'image stockée
+				dans la Frame. Cependant, comme nous voulons pouvoir indexer les pixels indépendemment, la largeur de l'image ne peut dépasser
+				\emph{MAX\_INT}, Ce qui correspond à une valeur maximale de $t_z$ de $26$ sur les architectures 32bits, avec des tiles de 32 pixels
+				de coté.
+				
+			\subsubsection{Les coordonnées négatives}
+				Lorsque la Frame sert à stocker un bitmap chargé depuis le disque, les pixels le constituant, et donc les tiles, sont toujours
+				à des coordonnées positives. Cependant, il est pratique de pouvoir également stocker des pixels de coordonnées négatives, afin
+				de disposer du plan complet pour pouvoir stocker le résultat de transformations géométriques. Pour ce faire, la Frame
+				stoque un Quad-Tree par quadrant, et les tiles aux coordonnées négatives sont redirigées vers les Quad-Tree correspondant.
+
+			\subsubsection{Le Tile de fond}
+				Lorsque la frame est utilisée pour contenir un bitmap, celle-ci dispose d'un Tile de fond. Celui-ci n'est pas repris
+				dans les Quad-Tree et est d'une couleur unie correspondant au 'fond' de l'image, habituellement une couleur transparente.
+				Lorsque l'on tente d'accéder à une coordonnée qui ne correspond à aucun noeud des Quad-Trees, ce que l'on a atteint une zone
+				correspondant au fond de l'image, et le tile de fond est renvoyé. Ceci permet de réduire l'espace pris par des zones vides
+				de l'image.
+
 		\subsection{Image}
 		\subsection{Opérations}
 		\subsection{États}
