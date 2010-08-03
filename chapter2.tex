@@ -5,6 +5,14 @@
 
 
 	\section{Structures de données}
+		Nous allons présenter ici les structures de données de base du framework. S'il est souvent difficile de justifier la conception de ces structures
+		sans examiner les algorithmes qui les utilisent, il est encore plus difficile de comprendre les algorithmes sans connaitre ces structures.
+		Nous avons donc fait le choix de présenter et d'expliquer tant que possible ces structures, le reste sera présenté à la section suivante qui
+		vous parlera des différents algorithmes.
+
+		Les structures et les algorithmes seront également présentés dans le langage \emph{C}, plutôt que dans des formes plus abstraites. Ceci afin de nous
+		rapprocher de l'implémentation --- également réalisée en \emph{C} --- et donc de pouvoir plus facilement discuter des performances de celle-ci. 
+
 		\subsection{Les Tiles}
 		Comme dans bien d'autres framework, les images d'himalaya sont divisés en grilles de tiles. Un tile est donc un bitmap rectangulaire correspondant
 		à une petite région de l'image. Himalaya fait un plus grand usage des tiles que d'autres frameworks puisque toute opération prend des tiles
@@ -114,39 +122,71 @@
 			avec des tests utilisateur. 
 		\subsubsection{Structure finale}
 			Le choix s'est porté sur des tiles normaux de taille fixe de $32\times32$ pixels, et ce quelque soit le modèle colorimétrique utilisé.
+
 		\subsection{Les Frames}
-			La Frame est la structure de donnée qui organise les tiles. Elle a deux utilités: Représenter une image bitmap et servir de cache aux
-			résultats des opérations. La Frame est en fait une pyramide de tiles creuse, implémentée par des Quad-Trees.
-			\subsubsection{Les Quad-Trees}
-				Les Quad-Trees sont composés de FrameNodes. Ceux-ci sont une référence optionelle vers un tile, et quatre références, optionelles,
-				vers des noeuds enfants. La tile référencée par le noeud représentant les quatres tiles des noeuds enfants à une échelle deux
-				fois plus petite.
+			La Frame est la structure de donnée qui organise les tiles. Elle doit remplir plusieurs fonctions: stocker une image gigapixel,
+			stocker les mipmaps de cette image, et servir de cache aux résultats des opérations, ainsi que les mipmaps de ceux-ci.
+
+			L'intérèt des mipmaps est que pour un coût mémoire de seulement 33\% de l'image originale, ils permettent d'accéder à une sous région
+			de l'image à une échelle quelconque en un temps ne dépendant que de la taille de cette sous-région, et non de la taille de l'image. 
+			Cette propriété est indispensable pour pouvoir travailler sur des images giga-pixel.
+			
+			La Frame est une pyramide de tile creuses. Cette structure n'est pas nouvelle et est utilisée dans la pluspart des logiciels devant
+			gérer des images gigapixel et leurs mipmaps. Les formats d'échange standard des photos satellites sont par exemple basés sur ces structures.
+			
+			L'intérèt d'avoir une pyramide creuse est de pouvoir stocker des tiles individuels, ce qui est indispensable pour pouvoir s'en servir
+			comme d'une cache.
+
+			Il existe plusieurs structures permettant l'organisation de tiles en pyramide creuses. La plus populaire est le quadtree, et c'est celle
+			qui fut choisie pour l'implémentation des Frames.
+
+			\subsubsection{Les quadtrees}
+		\begin{lstlisting}[float,caption={Définition des hlFrameNodes},frame=tb,label=lsthlFrameNode]
+typedef struct hl_frame_node{
+	/* abscisse du tile */
+	int tx;
+	/* ordonnee du tile */
+	int ty;
+	/* tile  */
+	hlTile *tile;
+	/* Noeuds enfants */
+	hlFrameNode *tl;
+	hlFrameNode *tr;
+	hlFrameNode *bl;
+	hlFrameNode *br;
+}hlFrameNode;
+		\end{lstlisting}
+				Les quadtrees sont composés de noeudsayant chacun une référence optionelle vers un tile, et de quatre références vers
+				les noeuds enfants. 
 
 				Chaque ensemble de noeuds de la même profondeur représente ainsi un bitmap à l'échelle deux fois plus petite que l'ensemble de
 				noeuds à la profondeur suivante.
 
+				Une définition de la structure des noeuds se trouve au listing~\ref{lsthlFrameNode}, page~\pageref{lsthlFrameNode}
+
 			\subsubsection{Placer une image dans le Quad-Tree}
 				Afin d'éviter d'avoir des Quad-Trees inutilement profond, les images sont stoquées au niveau le moins profond pouvant les contenir,
 				soit $ceil( \log_2( max(size_x,size_y)/32))$, $size_x$,$size_y$ représentant la largeur et la hauteur de l'image en pixels.
-				Cette profondeur est ensuite stoquée dans la Frame afin de pouvoir identifier le niveau de résolution native.
+				Cette profondeur est ensuite stoquée dans la Frame afin de pouvoir identifier le niveau correspondant à la résolution native.
 
 			\subsubsection{Référencer les Tiles dans le Quad-Tree}
 				Les tiles sont référencés par trois coordonnées $(t_x,t_y,t_z)$. $t_x,t_y$ représente les coordonnées spatiales du tile, $t_x$ valant
 				zéro à l'extrémité gauche du bitmap, et étant positif à droite. $t_y$ vaut zéro à l'extrémité supérieure du bitmap et est positif vers le bas,
 				et ce quelque soit l'échelle représentée.
 				
-				$t_z$ représente le niveau d'échelle. Il vaut $0$ au niveau le plus profond, correspondant à la résolution native, et est positif
-				pour les échelles inférieures. En effet, si l'on aggrandit ou réduit l'image, on modifie la profondeur du quad-tree, et donc la profondeur à 
-				laquelle se trouve la résolution native. Cette définition du $t_z$ permet donc de référencer les tiles de l'image indépendemment de leur taille.
+				$t_z$ représente le niveau d'échelle. Il représente habituellement la profondeur du noeud à laquelle on trouve le tile. Nous avons
+				choisi d'utiliser un système différent, $t_z$ vallant $0$ au niveau correspondant à la résolution native, et étant positif
+				pour les échelles intérieures. L'intérèt de ce système est que la référence d'un tile est indépendante de sa profondeur réelle,
+				qui peut changer lorsque l'on insère ou retire des tiles dans celui-ci.
 				
-				Sa valeur maximale dépend donc de la taille de l'image stockée
-				dans la Frame. Cependant, comme nous voulons pouvoir indexer les pixels indépendemment, la largeur de l'image ne peut dépasser
+				On peut s'intéresser à la valeur maximale de $t_z$ qui dépend de la taille de l'image stockée dans le quadTree.
+				Comme nous voulons pouvoir indexer les pixels indépendemment, la largeur de l'image ne peut dépasser
 				\emph{MAX\_INT}, Ce qui correspond à une valeur maximale de $t_z$ de $26$ sur les architectures 32bits, avec des tiles de 32 pixels
 				de coté.
 				
 			\subsubsection{Les coordonnées négatives}
-				Lorsque la Frame sert à stocker un bitmap chargé depuis le disque, les pixels le constituant, et donc les tiles, sont toujours
-				à des coordonnées positives. Cependant, il est pratique de pouvoir également stocker des pixels de coordonnées négatives, afin
+				Lorsque la Frame sert à stocker un bitmap chargé depuis le disque, les pixels le constituant, et donc les tiles, ont toujours des
+				coordonnées $t_x,t_y$ positives. Cependant, il est pratique de pouvoir également stocker des pixels de coordonnées négatives, afin
 				de disposer du plan complet pour pouvoir stocker le résultat de transformations géométriques. Pour ce faire, la Frame
 				stoque un Quad-Tree par quadrant, et les tiles aux coordonnées négatives sont redirigées vers les Quad-Tree correspondant.
 
@@ -154,15 +194,140 @@
 				Lorsque la frame est utilisée pour contenir un bitmap, celle-ci dispose d'un Tile de fond. Celui-ci n'est pas repris
 				dans les Quad-Tree et est d'une couleur unie correspondant au 'fond' de l'image, habituellement une couleur transparente.
 				Lorsque l'on tente d'accéder à une coordonnée qui ne correspond à aucun noeud des Quad-Trees, ce que l'on a atteint une zone
-				correspondant au fond de l'image, et le tile de fond est renvoyé. Ceci permet de réduire l'espace pris par des zones vides
-				de l'image.
+				correspondant au fond de l'image, et le tile de fond est renvoyé. Ceci permet de réduire l'espace mémoire consommé par les zones 
+				vides des images.
 
-		\subsection{Image}
-		\subsection{Opérations}
-		\subsection{États}
+			\subsubsection{Insertion, suppression et accès aux tiles}
+				L'insertion, la suppression, et l'accès à un tile se fait en $O(n)$ ou $n$ est la profondeur à laquelle se trouve le tile dans 
+				le Quad-Tree. Comme $n$ ne dépasse pas 26, le temps d'exécution de ces fonctions est borné, et on peut donc considérer que'elles
+				ont une complexité de $O(1)$. 
+				
+				De plus l'insertion et la suppression augmentent ou diminuent automatiquement la taille des 
+				quad-tree afin de s'assurer que la taille de l'arbre reste minimale. Ceci nécessite cependant de stocker à chaque noeud 
+				sa coordonnée $t_x,t_y$, ce qui augmente leur taille de 40\%. TODO / evaluer l'espace pris.
+
+			\subsubsection{Surchage mémoire}
+				Les FrameNode ont un poids de $28$ Bytes, ce qui représente 2,66\% de la taille des tiles les plus petits(Alpha 8bit), 0.67\% de celle des plus
+				communs(RGBA 8bit)  et 0.14\% de celle des plus grands(CMYKA 32bit). Dans le meilleur des cas, le stockage d'un tile ne 
+				nécessite qu'un noeud, et 26 dans le pire des cas. On observe lors des tests utilisateurs qu'en moyenne le stockage d'un tile
+				nécessite TODO noeuds, ce qui représente TODO pourcent.
+			\subsubsection{Définition de l'hlFrame}
+		\begin{lstlisting}[float,caption={Définition des hlFrames },frame=tb,label=lsthlFrame]
+typedef struct hl_frame{
+	/* largeur en pixel du bitmap */
+	int sizex;
+	/* hauteur en pixel du bitmap */
+	int sizey;
+	/* tile de fond */
+	hlTile *bg;
+	/* QuadTrees */
+	hlFrameNode *tl;
+	hlFrameNode *tr;
+	hlFrameNode *bl;
+	hlFrameNode *br;
+}hlFrame;
+		\end{lstlisting}
+				On trouve 
+
+		\subsection{L'hlImage}
+		\begin{lstlisting}[float,caption={Définition des hlImages },frame=tb,label=lsthlImage]
+typedef struct hl_image{
+	/* Reference vers la derniere operation de la pile*/
+	hlOperation *top;
+	/* Reference vers la frame contenant le bitmap 
+	 * a modifier */
+	hlFrame *source;
+}hlImage;
+		\end{lstlisting}
+		Si la frame représente une cache ou un bitmap, l'hlImage représente une image à proprement parler. L'hlImage est composée principalement
+		de deux choses, une Frame représentant la source, c'est à dire une image de départ à modifier, et une liste, ou plutôt pile d'opérations
+		qui modifient l'image.	
+		Une défintion de la structure se trouve au Listing~\ref{lsthlImage}, page~\pageref{lsthlImage} 
+		\subsubsection{La pile d'opérations}
+			La pile d'opération est une liste simplement chainée d'opération. Chaque opération référence l'opération \emph{précédente}.
+			L'\emph{hlImage} référence uniquement la \emph{dernière} opération. On peut se représenter ces opérations comme une pile,
+			ou les opérations sont à appliquer au dessin de haut en bas, l'hlImage référençant le dessus de la pile. 
+		\subsection{Les hlOperations}
+		\begin{lstlisting}[float,caption={Définition des hlOperations },frame=tb,label=lsthlOp]
+typedef struct hl_operation{
+	/* Reference vers la classe de l'operation */
+	hlOpClass  *class;	
+	/* Reference vers l'operation precedente. */
+	struct hl_operation *down;
+	/* Frame qui sert de cache aux resultats de 
+	 * l'operation */
+	hlFrame *cache;			
+	/* Reference vers l'image a laquelle appartient 
+	 * l'operation */
+	hlImage *image;			
+	/* HL_MODIFABLE, HL_CACHING */
+	int	 flags;			
+	/* Un compteur de references */
+	int	 refcount;		
+	/* Les parametres de l'operation */
+	void	*params;		
+}hlOperation;
+		\end{lstlisting}
+		Les hlOperations sont les objets qui représentent toutes les opérations qui permettent de modifier une image. Une définition de la structure
+		se trouve au Listing~\ref{lsthlOp}, page~\pageref{lsthlOp}. Certaines opérations particulières pouvant étendre cette structure avec des
+		champs supplémentaires, qui seront détaillés dans les sections appropriées.
+
+		Cela représente un minimum de 28Bytes\footnote{La structure telle qu'implémentée possède de nombreux champs supplémentaires à de fins de déboguage et fait
+		92Bytes} par opération sur une architecture 32bits. Une hlOperation est donc suffisemment légère pour
+		que l'on puisse en utiliser plusieurs millions sans problèmes de mémoire. 
+
+		\subsubsection{La classe d'opération}
+			\begin{lstlisting}[float,caption={Définition des classes d'opérations },frame=tb,label=lsthlOpClass]
+typedef struct hl_op_class{
+	/* HL_COLORFILTER, HL_FILTER, HL_DRAW, HL_BLEND */
+	int category;
+	/* Numero de l'operation*/
+	int id;
+	/* le nombre de parametres flottants */
+	int float_param_count;
+	/* le nombre de parametres entiers */
+	int int_param_count;
+	/* le nombre de parametres de couleur */
+	int color_param_count;
+	/* le nombre de parametres d'images */
+	int image_param_count;
+}hlOpClass;
+			\end{lstlisting}
+			La classe d'opération contient la description d'un type d'opération, et tout ce qui est commun à ces opérations, Il n'existe qu'une
+			seule instance de chaque classe d'opération. La définition de ces classe est donnée au listint~\ref{lsthlOpClass}, page~\pageref{lsthlOpClass}.
+
+			Les champs des classes d'opérations méritent d'être expliqués plus en détails	
+			\begin{description}
+				\item[\texttt{category}]. Les opérations sont divisées en plusieurs catégories, selon les propriétés et les paramètres
+				nécessaires à l'application de l'opération. Ceci permettra d'appeler une méthode spécialisée pour chaque catégorie d'opération.
+				Ces catégories correspondent également aux différentes catégories d'opération de dessin que nous avons vu au premier chapitre. 
+				\begin{description}
+					\item[\texttt{HL\_COLORFILTER}]: Les filtres colorimétriques. Ces filtres ne sont pas dépendants de la position du tile ou de son échelle, et s'appliquent
+					sur toute l'image. 
+					\item[\texttt{HL\_FILTER}]: Les filtres spatiaux. Ces filtres dépendent de l'échelle, de la position du tile, 
+					et ne peuvent modifier un tile sans connaitre les données des tiles adjascents.
+					\item[\texttt{HL\_DRAW}]: Le dessin de primitives. Ces opérations dépendent de l'échelle et de la position du tile, 
+					mais ne s'appliquent que sur une sous-région de l'image.
+					 Ces filtres dépendent de l'échelle et de la position du tile, et ne s'appliquent que sur
+					une sous région de l'image.
+					\item[\texttt{HL\_BLEND}]] Les opéartions de fusion. Ces opérations dépendent de la position du tile et de son échelle, 
+					ainsi que d'une autre \emph{hlImage}
+				\end{description}
+				\item[\texttt{id}]Le numéro de l'opération, qui l'identifie dans sa catégorie. Par exemple, Le dessin de cercle 
+				--- \texttt{HL\_DRAW\_CIRCLE} --- dans 
+				la catégorie \texttt{HL\_DRAW}
+				\item[\texttt{*\_param\_count}]: Le nombre de paramètres de chaque type. Les opérations sont limitées à quatre types de paramètres,
+				les flottants, les entiers, les couleurs, et les images. Cette information est nécessaire pour pouvoir calculer la taille des 
+				paramètres de la fonction. L'implémentation utilise un mécanisme similaire mais plus complexe permettant une introspection sur les
+				paramètres.
+			\end{description}
 	\section{Algorithmes}
-		\subsection{Rasterisation}
 		\subsection{Dessin}
+		Dans Himalaya, le dessin et la rasterisation sont deux opérations séparées et indépendantes. Le dessin consiste simplement à ajouter une opération.
+
+			
+		\subsection{Rasterisation}
+	\section{États}
 		\subsection{Sauvegarder l'état}
 		\subsection{Charger un état}
 		\subsection{Supprimer un état}

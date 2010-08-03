@@ -1,4 +1,4 @@
-\documentclass[8pt,a4paper]{memoir}
+\documentclass[9pt,a4paper,twoside]{memoir}
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
 %\usepackage[T1]{fontenc}
@@ -11,19 +11,48 @@
 \usepackage{amssymb}
 \usepackage{wasysym}
 \usepackage{txfonts}
-\usepackage{cmbright}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{darkgray}{rgb}{0.25,0.25,0.25}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{lightgray}{rgb}{0.75,0.75,0.75}
+\definecolor{lightlightgray}{rgb}{0.98,0.98,0.98}
+%\usepackage{cmbright}
 %\textwidth 17cm
 %\oddsidemargin 0cm
 %\evensidemargin -1cm
+
+\renewcommand{\rmdefault}{ppl}	%Palatino
+%\renewcommand{\rmdefault}{bch}	%Bitstream charter
+%\renewcommand{\sfdefault}{ppl}
+%\renewcommand{\ttdefault}{ppl}
+
+%Subsection style
+\setsubsecheadstyle{\scshape \raggedright}
+
+%SubSubsection style
+\setsubsubsecheadstyle{\itshape \raggedright}
+\setsubsubsecindent{0pt}
+
+\maxsecnumdepth{subsection}
+\setsecnumdepth{subsection}
+
+%LISTINGS
+%\renewcommand{\lstlistingname}{Algorithme}
+\lstdefinestyle{algorithm}{language=C,backgroundcolor=\color{lightlightgray},basicstyle=\ttfamily,stringstyle=\ttfamily,keywordstyle=\ttfamily\bfseries,commentstyle=\itshape\color{gray},numbers=left,numberstyle=\color{lightgray}}
+\lstset{style=algorithm}
+%\begin{lstlisting}[float,caption={Un exemple d'algorithme},frame=tb,label=testalgo]
+
 
 \title{Conception, implémentation et analyse d'un framework d'édition interactive d'images gigapixel.}
 \author{Frédéric van der Essen \\ Promoteurs: Philip Dutré, Marc Lobelle.}
 \makeindex
 \begin{document}
+	\rmfamily
 	\maketitle
 	%\include{body}
 	\include{chapter1}
-	%\include{chapter2}
+	\include{chapter2}
 	\tableofcontents
 	\printindex
 \end{document}
