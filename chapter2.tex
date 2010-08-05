@@ -1,5 +1,5 @@
 \chapter{Framework Himalaya (20 pages) }
-	Himalaya est un framework d'édition d'image s'inspirant des frameworks nodaux et de la technique de megatextures. Il fut conçu par moi même avant la
+	Himalaya est un framework d'édition d'image s'inspirant des frameworks nodaux et de la technique de megatextures. Il fut conçu par l'auteur avant la
 	réalisation de ce mémoire dans le but de créer un logiciel de peinture permettant l'édition non destructive, la composition non linéaire, et d'être
 	compatible avec la technique de mégatexture afin de pouvoir être utilisé dans le jeu vidéo. 
 
@@ -55,14 +55,15 @@
 				bitmap séparé. Un tile étant alors constitué de plusieurs bitmaps. L'intéret de cette technique est que les tiles de même
 				quantisation ont la même taille en pixel, et les bitmaps les constituant la même taille en mémoire. Un autre intérèt est
 				qu'il est maintenant beaucoup plus facile de programmer des opérations qui peuvent gérer un nombre quelconque de composantes
-				par pixel.
+				par pixel. Ces deux possibilités sont représentées par le schéma~\ref{fig:tilestruct}, page~\pageref{fig:tilestruct}
 
 				Cependant, cela implique que l'accès à un pixel nécessite autant d'accès mémoires que de composantes, ce qui ralentit 
 				l'exécution du programme. 
 			\end{description}
 
 		\subsubsection{Comparaison des tiles}
-			Le tableau TODO représente le résultat d'expériences qui résument les concepts précedemment exposés. Dans ce tableau, deux opérations
+			Afin de déterminer quel type de tile, et quelles dimensions sont les plus adéquates, plusieurs expériences ont été réalisées.
+			Le tableau~\ref{tileperf}, page~\pageref{tileperf} représente le résultat d'expériences qui résument les concepts précedemment exposés. Dans ce tableau, deux opérations
 			sont testées : \emph{colorfill} consiste à remplir une image de $8192^2$ pixels \emph{RGBA} 8bits/composante d'une couleur unie. \emph{blend} consiste 
 			en fusionner deux images de $8192^2$ pixels \emph{RGBA} 8 bits/composante par opacité. Ces deux opérations 
 			sont utilisées très couramment pour la réalisation de peintures. 
@@ -83,9 +84,9 @@
 				\tiny
 				\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} | r | c || c | c | c | c | c | c | c | c | c |}
 					\hline
-					\multicolumn{2}{|r||}{Largeur des tiles}& 8	& 16	& 32	& 64	& 128	& 256	& 512	& 1024	& 2048	\\
+					\multicolumn{2}{|r||}{Largeur des tiles (pixel)}& 8	& 16	& 32	& 64	& 128	& 256	& 512	& 1024	& 2048	\\
 					\hline 
-					Test	& Tile &\multicolumn{9}{ c|}{Temps de calcul moyen sur 5 expériences (secondes)}\\
+					Test	& Canaux &\multicolumn{9}{ c|}{Temps de calcul moyen sur 5 expériences (secondes)}\\
 					\hline
 					\emph{colorfill\_single} & Normal 	& 0.78	& 0.64 	& 0.58	& 0.57	& 0.49	& 0.28	& 0.28	& 0.28	& 0.31	\\
 					\emph{colorfill\_full} & Normal 	& 1.14	& 0.7 	& 0.65	& 0.63	& 0.55	& 0.44	& 0.47	& 0.44	& 0.51	\\
@@ -106,11 +107,13 @@
 				\includegraphics[width=\textwidth]{images/tilegraph.eps} 
 				\label{fig:tilegraph}
 			\end{figure}
-		\subsubsection{Analyse des performances}
+		\subsubsection{Analyse des résultats}
 			On peut tirer plusieurs conclusion de ces expériences:
 			\begin{itemize}
 				\item Les tiles doivent être les plus grands possibles, pour diminuer le 
-			nombre d'appels de fonctions, mais ne doivent pas être trop grands, sinon les performances sont très fortement dégradées. 
+			nombre d'appels de fonctions, mais ne doivent pas être trop grands, sinon les problèmes de cache dégradent fortement les performances.
+				Cet effet est mis en exergue par le graphe~\ref{fig:tilegraph}, page~\pageref{fig:tilegraph}, qui représente les différents
+				temps de calcul du test \emph{blend} en fonction de la largeur des tiles.  
 				\item Les tiles à canaux séparés sont jusque 2 fois plus lents que les tiles normaux.
 				\item Le schémà d'accès aux tiles en mémoire a un impact non négligable mais plus marqué sur les tiles normaux.
 				\item Le temps pour faire la fusion d'un même nombre de pixels peut différer de 970\% selon le type de tile, sa taille et la
@@ -125,6 +128,10 @@
 			avec des tests utilisateur. 
 		\subsubsection{Structure finale}
 			Le choix s'est porté sur des tiles normaux de taille fixe de $32\times32$ pixels, et ce quelque soit le modèle colorimétrique utilisé.
+
+			À noter que pour simplifier la discussion, le reste du rapport par de l'hypothèse que tous les tiles utilisent le modèle colorimétrique
+			RGBA 8bits, qui est également le seul modèle utilisé lors des tests utilisateurs. Dans les discussions suivantes les tiles
+			auront donc la même taille en pixel, mais également la même taille en mémoire. 
 
 		\subsection{Les Frames}
 			La Frame est la structure de donnée qui organise les tiles. Elle doit remplir plusieurs fonctions: stocker une image gigapixel,
@@ -159,7 +166,7 @@ typedef struct hl_frame_node{
 	hlFrameNode *br;
 }hlFrameNode;
 		\end{lstlisting}
-				Les quadtrees sont composés de noeudsayant chacun une référence optionelle vers un tile, et de quatre références vers
+				Les quadtrees sont composés de noeuds ayant chacun une référence optionelle vers un tile, et de quatre références vers
 				les noeuds enfants. 
 
 				Chaque ensemble de noeuds de la même profondeur représente ainsi un bitmap à l'échelle deux fois plus petite que l'ensemble de
@@ -179,8 +186,8 @@ typedef struct hl_frame_node{
 				
 				$t_z$ représente le niveau d'échelle. Il représente habituellement la profondeur du noeud à laquelle on trouve le tile. Nous avons
 				choisi d'utiliser un système différent, $t_z$ vallant $0$ au niveau correspondant à la résolution native, et étant positif
-				pour les échelles intérieures. L'intérèt de ce système est que la référence d'un tile est indépendante de sa profondeur réelle,
-				qui peut changer lorsque l'on insère ou retire des tiles dans celui-ci.
+				pour les échelles intérieures. L'intérèt de ce système est que la référence d'un tile est indépendante de sa profondeur dans
+				le quadtree, qui peut changer lorsque l'on insère ou retire des tiles dans celui-ci.
 				
 				On peut s'intéresser à la valeur maximale de $t_z$ qui dépend de la taille de l'image stockée dans le quadTree.
 				Comme nous voulons pouvoir indexer les pixels indépendemment, la largeur de l'image ne peut dépasser
@@ -487,7 +494,8 @@ hlTile *hlImageRenderTile(hlImage *img, int tx, int ty, int tz){
 		\subsubsection{Catégories d'opérations}
 		L'algorithme tel que présenté n'est pas adapté à toutes les catégories d'opérations. Les filtres spatiaux nécessitent par exemple plusieurs tiles
 		résultant de l'opération précédente pour en calculer un seul. Quand aux opérations de fusion, elles nécessitent d'obtenir le tile d'une
-		autre image. Il faut donc un algorithme légèrement différent par catégorie. TODO.
+		autre image. Ces opérations nécessitent donc un algorithme de rasterisation légèrement différents. Le fonctionnement des opérations de fusion est détaillé
+		dans une section suivante. 
 		
 	\section{États}
 		La définition de l'hlImage telle que présentée jusqu'à maintenant n'est pas complète. En effet, comment modifier la pile d'opération sans
@@ -623,9 +631,65 @@ typedef struct hl_image{
 
 			Le forking permet donc de concilier état et modifications pour une complexité temporelle et spatiale de $O(n)$ ou $n$ est le nombre
 			d'opérations sauvegardées qui suivent l'opération à modifier.
+	\section{Opération de Fusion}
+		\begin{lstlisting}[float,caption={Rasterisation d'opérations},frame=tb,label=lsthlStateRenderTile]
+hlTile *hlStateRenderTile(hlImage *img, hlState s, int tx, int ty, int tz){
+	hlOperation *op = hlStateGetOp(img,s);
+	return hlOpRenderTile(op,tx,ty,tz);
+}
+		\end{lstlisting}
+		L'opération de fusion permet d'insérer et de fusionner un tile d'une autre image dans la pile. L'image externe doit donc être référencée par
+		un état, et celui ci ne peut pas être l'état zéro, puisque celui-ci ne correspond pas à une image constante.  Insérer un tile d'une image,
+		à un état spécifique implique d'être capable de rasteriser celle-ci à l'état désiré sans changer son état en cours. Ceci est fait par la
+		fonction \lstinline$hlStateRenderTile(...)$ que l'on trouve au listing~\ref{lsthlStateRenderTile}, page~\pageref{lsthlStateRenderTile}.
 
-			
-		
+		Cette fonction nécessite l'usage de \lstinline$hlStateGetOp(...)$ qui permet de récupérer l'opération associée à l'état, et la fonction
+		\lstinline$hlOpRenderTile(...)$ que l'on trouve au listing~\ref{lsthlOpRenderTile}, page~\pageref{lsthlOpRenderTile}.
+		\begin{lstlisting}[float,caption={Rasterisation d'opérations},frame=tb,label=lsthlOpBlendTile]
+hlTile *hlOpBlendTile(hlOperation *op, int tx, int ty, int tz){
+	hlTile *tile = hlFrameTileGet(op->cache,tx,ty,yz);
+	if(tile){
+		if(hlOpCaching(op,tx,ty,yz)){
+			return hlTileCopy(tile);
+		}else{
+			return hlFrameTileRem(op->cache,tx,ty,yz);
+		}
+	}else{
+		if(hlOpOpaque(op,tx,ty,yz)){
+			tile = hlTileNew();
+			hlOpRasterise(tile,op,tx,ty,yz);
+		}else{
+			if(op->down){
+				tile = hlOpRenderTile(
+				  op->down,tx,ty,yz);
+			}else{
+				tile = hlTileCopy(hlFrameTileGet(
+				  op->image->source,tx,ty,tz));
+			}
+			hlImage *img  = hlBlendOpGetImg(op);
+			hlState s     = hlBlendOpGetState(op);
+			hlTile *tile2 = hlStateRenderTile(img,s,tx,ty,tz);
+			hlBlendOpRasterise(op,tile,tile2);
+			hlTileFree(tile2);
+		}
+		if(hlOpCaching(op,tx,ty,tz)){
+			hlFrameTileSet(	op->cache,
+				hlTileCopy(tile),tx,ty,yz);
+		}
+		return tile;
+	}
+}
+	\end{lstlisting}
+		Une fois cette fonction disponible, on peut adapter \lstinline$hlOpRenderTile(...)$ aux opérations de fusion; \lstinline$hlOpBlendTile(...)$.
+		On Trouve le résultat de cette adaptation au listing~\ref{lsthlOpBlendTile}, page~\pageref{lsthlOpBlendTile}. Les modifications se concentrent
+		dans les lignes 21 à 25 :
+		\begin{description}
+			\item{21-22.} On récupère l'image et l'état à fusionner dans l'image courante.
+			\item{23.} On récupère un tile de cette image aux mêmes coordonnées que l'image courante.
+			\item{24.} On fusionne les deux tiles selon les paramètres de l'opération
+			\item{25.} On libère le tile de l'image externe dont on a plus besoin. 
+		\end{description}
+
 	\section{Gestion de la cache}
 		La gestion de la cache peut se résmuer en deux questions :
 		\subsection{Quand et où mettre un tile dans la cache}
@@ -736,9 +800,10 @@ typedef struct hl_image{
 			\label{fig:hl-calques}
 			\caption{Modèle par calques à partir d'hlImages.}
 		\end{figure}
-			Il est possible de construire un modèle par calque semblable à ceux utilisés par les frameworks bitmaps. A chaque calque correspond
-			une hlImage. Une hlImage, regroupe ensuite les calques en utilisant des opérations de fusion. Ceci est représenté 
-			sur le schéma~\ref{fig:hl-calques}, page~\pageref{fig:hl-calques}
+			Il est possible de construire un modèle par calque semblable à ceux utilisés par les frameworks bitmaps en utilisant les opérations
+			de fusion. À chaque calque correspond une hlImage qui sera modifiée lors des peintures ou des applications de filtres. 
+			Une hlImage regroupe ensuite les calques en utilisant des opérations de fusion. Ceci est représenté 
+			sur le schéma~\ref{fig:hl-calques}, page~\pageref{fig:hl-calques}. 
 
 		\subsection{Composition non linéaire}
 		\begin{figure}[ht]
@@ -747,39 +812,17 @@ typedef struct hl_image{
 			\label{fig:compnonlin}
 			\caption{Possibilités de composition non linéaire}
 		\end{figure}
-			Il existe deux façons de réaliser de la composition non linéaire: premièrement, plusieurs opérations de fusion peuvent référencer 
-			la même image. Ensuite, les opérations de fusions référencent l'image à un état particulier, une opération de fusion n'ayant pas
-			besoin de charger un état dans une image pour la rasteriser. Il est ainsi possible de référencer la même image à des états différents.
+			La composition linéaire est possible grâce aux propriétés des opérations de fusion:
+			\begin{itemize}
+				\item Il est possible à plusieurs opérations de fusion de référencer la méme image, a des états quelconques.
+				\item Il est possible à une opération de fusion de référencer sa propre image, tant que l'état référencé est antérieur
+				à l'opération de fusion.
+			\end{itemize}
+			Il est ainsi très facile d'implémenter les \emph{history brush} qui peignent un état antérieur sur l'image ou les \emph{clone brush}
+			qui peignent une copie de l'image translatée. 
 
-			Il est également possible pour une image de se référencer elle même à différents états, tant que cela ne crée pas de boucle. 
-
-			En utilisant les opérations de fusion et les états, le framework Himalaya offre des possibilités de composition non linéaire très
-			proches de ce qu'offre un framework nodal. 
+			En combinant plusieurs images avec des opérations de fusion différentes, il est également possible de créer des réseaux fort complexes
+			offrant des possibilités très proches de celles offertes par les frameworks nodaux. 
 
 			Ces possibilités sont résumées au schéma~\ref{fig:compnonlin}, page~\pageref{fig:compnonlin}.
 
-\chapter{Localité des operations (20 pages)}
-	\section{Opérations vectorisées}
-		\subsection{Impact sur l'API}
-		\subsection{Évaluation des performances}
-	\section{Bounding Boxes}
-		\subsection{Algorithme Inline}
-		\subsection{Algorithme Off-line}
-		\subsection{Multi-Niveaux}
-		\subsection{Impact sur l'API}
-		\subsection{Évaluation des performances}
-
-\chapter{Anti-aliasing (15 pages) }
-	\section{Primitive de dessin}
-	\section{Problèmes d'échelle}
-		\subsection{Oversampling}
-	\section{Problèmes de superposition}
-	\section{Problèmes de bandes}
-	\section{Problème de blending à faible opacité}
-	\section{Problème de précision de positionement}
-\chapter{Test utilisateurs (10 pages) }
-	\section{Procédure}
-	\section{Résultats}
-	\section{Analyse}
-\chapter{Comparaison d'Himalaya aux autres frameworks}
-\chapter{Conclusion}
