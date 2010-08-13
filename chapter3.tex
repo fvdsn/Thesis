@@ -1,4 +1,4 @@
-\chapter{Localité des operations (20 pages)}
+\chapter{Localité des operations}
 	Ce chapitre traite de la gestion de la localité des opérations. Une
 	opération est dite locale si elle n'affecte qu'une sous-région de l'image.
 
@@ -12,12 +12,14 @@
 		Le logiciel de peinture possède trois outils principaux : La peinture,
 		l'undo/redo, et une fenêtre de visualisation.
 		\subsection{Background}
-			La hlFrame source consiste en une Frame unie et transparente.
-			Une opération de dessin d'un rectangle blanc opaque détermine ensuite
-			la feuille de dessin.
-
+			Le logiciel présente à l'utilisateur une zone de dessin constituée d'un
+			rectangle blanc qui représente la feuille sur laquelle dessiner. 
+			Pour ce faire, nous utilisons une Frame unie et transparente comme source
+			de l'hlImage, à laquelle nous ajoutons une opération de dessin d'un
+			rectangle blanc. 
 		\subsection{Peinture}
-			La peinture se fait par la superposition de primitives positionnées
+			La peinture se fait par la superposition de primitives appelées \emph{brushes}
+			positionnées
 			à intervales réguliers sur le chemin tracé par l'utilisateur via la
 			souris ou la tablette graphique. Les opérations de dessin de primitives 
 			sont regroupées en traits, qui correspondent à une pression 
@@ -34,11 +36,11 @@
 		\begin{figure}[ht]
 			\centering
 			\includegraphics[width=\textwidth]{images/draw} 
-			\label{fig:draw}
 			\caption{Fonctionnement de la peinture}
+			\label{fig:draw}
 		\end{figure}
 
-			Ce mécanisme est résumé au schéma~\ref{fig:draw}, page~\ref{fig:draw}.
+			Ce mécanisme est résumé au schéma~\ref{fig:draw}, page~\pageref{fig:draw}.
 			
 		\subsection{Undo/Redo}
 			L'undo redo fonctionne de la manière décrite au chapitre précédent.
@@ -47,7 +49,7 @@
 
 			Comme indiqué au chapitre précédent, la consommation de mémoire est de
 			l'ordre du nombre d'états. Comme il n'y a pas de mécanisme permettant de
-			réguler les caches de manière globale, nous limitons le nombre d'états disponibles
+			réguler les caches de manière globale, nous limitons le nombre d'états --- et donc d'undos --- disponibles
 			à 16.
 		\subsection{Visualisation}
 			L'utilisateur visualise son dessin en temps réel via une fenêtre de visualisation.
@@ -91,21 +93,26 @@
 		pas les tiles. Au lieu d'avoir un algorithme de rasterisation en $O(n)$ ou $n$ est le nombre d'opérations
 		ajoutées depuis le dernier rendu, nous aimerions avoir pour $n$ le nombre d'opérations ajoutées depuis le dernier
 		rendu \emph{qui affectent le tile}.
-		
-		Deux approches ont été testées: Les opérations vectorisées, et Le saut d'opération.	
+
+		Il n'a pas été possible durant ce mémoire de trouver une réponse définitive à ce problème. Nous allons donc 
+		passer en revue les différentes options qui ont été considérées, ainsi que leur efficacité. L'analyse de leur
+		efficacité nous permet d'avoir une bonne idée de la direction à prendre pour la poursuite des recherches d'une
+		solution à ce problème.
+
+		Deux approches ont été testées: Les opérations vectorisées et les bounding operations. 	
 
 
 	\section{Bounding Boxes}
 \newcommand{\BB}{\emph{BB}~}
 		Une première étape est d'ajouter à toutes les opérations de dessin une \emph{Bounding Box} --- \BB en abrégé.
 		Celle-ci représente
-		Une région rectangulaire, alignée aux axes de l'image affectée par l'opération. Avant de rasteriser une opération 
+		Une région rectangulaire, alignée aux axes de l'image, comprenant les tiles affectés par l'opération. Avant de rasteriser une opération 
 		sur un tile, la \BB est examinée pour voir si le tile est affecté. s'il ne l'est pas, on peut éviter 
 		de faire appel à la fonction de l'opération qui aurait de toute manière implémenté un tel mécanisme 
 		de manière interne.
 
 		Un autre intéret d'un tel système est que la \BB est générée à la création de l'opération, et non à
-		chaque appel de l'opération, ce qui améliore encore les performances. TODO
+		chaque appel de l'opération, ce qui améliore encore les performances.
 		
 		Pour réaliser cela, chaque classe d'opération doit donc être capable de générer de telles \BB.
 
@@ -116,8 +123,8 @@
 		\begin{figure}[ht]
 			\centering
 			\includegraphics[width=\textwidth]{images/vector} 
-			\label{fig:vector}
 			\caption{(a) Opérations normales, (b) Opérations vectorisées}
+			\label{fig:vector}
 		\end{figure}
 		Vectoriser les opérations consiste à regrouper des opérations du même type en une seule opération qui contient
 		un vecteur de paramètres représentant l'ensemble des paramètres. La \BB de l'opération
@@ -127,8 +134,8 @@
 		\begin{itemize}
 			\item La structure hlOperation est mise en commun, permettant d'économiser la mémoire.
 			\item Si un paramètre des opérations est constant dans le vecteur, celui-ci peut être mis en commun,
-			ce qui économise de la mémoire. Ceci arrive régulièrement en peinture; les traits sont principalement
-			composés de brushes de même couleur et de même diamètre. \emph{brushes}
+			ce qui économise de la mémoire. Ce cas de figure se présente régulièrement en peinture; les traits étant principalement
+			composés de \emph{brushes} de même couleur et de même diamètre.
 			\item Un test sur la Bounding box de l'opération vectorielle permet d'éviter le test de l'intégralité
 			des opérations internes.
 		\end{itemize}
@@ -140,14 +147,32 @@
 			\item L'algorithme de rasterisation doit être lourdement modifié pour pouvoir supporter ce type d'opérations.
 			\item Les opérations vectorisées ne peuvent être modifiées avec l'API classique.
 		\end{itemize}
+				\begin{table*}
+					\centering
+					\begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c |}
+					\hline
+					Dessin & Nombre moyen d'opérations par trait \\
+					\hline
+					A	& 105.4 \\
+					B	& 199.8 \\
+					C	& 117.8 \\
+					D	& 149.1 \\
+					E	& 117.2 \\
+					\hline
+					\end{tabular*}
+					\caption{Nombre moyen d'opérations par trait sur les dessins de tests (voir figure~\ref{fig:testdrawings}, 
+					page~\pageref{fig:testdrawings}) }
+					\label{strokelength}
+				\end{table*}
 		Les performances des opérations vectorisées seront donc contraintes par le nombre d'opérations du même type que
 		l'on trouve entre chaque état. Pour l'application de peinture développée, les opérations sont toujours du même
-		type, et un trait faisant en moyenne 100 opérations (TODO), le nombre de tests de bounding box à réaliser en 
+		type, et un trait faisant en moyenne une centaine d'opérations (voir tableau~\ref{strokelength}, page~\pageref{strokelength}), 
+		le nombre de tests de bounding box à réaliser en 
 		dehors des traits est divisé par 100. Le nombre de tests à réaliser sur les traits, augmente en contrepartie d'un
-		pourcent.
+		pourcent à cause de la \BB supplémentaire.
 
-		Nous n'atteignons donc pas notre objectif de réduction de complexité, mais les opérations vectorisées devraient
-		augmenter en moyenne d'un facteur 100 le nombre d'opérations utilisables dans un document.
+		Nous n'atteignons donc pas notre objectif de réduction de complexité, mais les opérations vectorisées permettent
+		de réduire de deux ordres de grandeur le coût de la localité des opérations.
 
 		\subsection{Impact sur l'API}
 		Étant donné les limitations des opérations vectorisées, nous sommes obligés de donner à l'utilisateur un
@@ -162,18 +187,27 @@
 		Ainsi, l'utilisateur n'a qu'à utiliser cette fonction sur la première opération de chaque trait pour pouvoir
 		vectoriser les traits. 
 		\subsection{Évaluation des performances}
+		À part un gain de mémoire au niveau de la description du document, qui reste négligable par rapport au poids pris
+		par les caches, les performances démontrées par les opérations vectorisés sont quasiment identiques à un cas particulier
+		des Bounding Operations, solution plus prometteuse présentée à la section suivante.
+
+		Nous nous réfèrerons donc à la section \emph{Évaluation des performancesi / Tailles des \emph{BO}} 
+		pour un apercu des performances des opérations vectorisées.  
 
 	\section{Bounding Operations}
 \newcommand{\BO}{\emph{BO}~}
 		\begin{figure}[ht]
 			\centering
 			\includegraphics[width=\textwidth]{images/bo} 
-			\label{fig:bo}
 			\caption{Une Bounding Operation}
+			\label{fig:bo}
 		\end{figure}
 		Les \emph{Bounding Operations} -- \BO en abrégé --- ne sont pas des opérations au sens original du terme puisque si utilisées
 		correctement, elles n'effectuent aucune modification de l'image. Cependant elles s'utilisent et s'insèrent
-		dans la pile comme des opérations classiques d'une nouvelle catégorie. 
+		dans la pile comme des opérations classiques  appartenant à une nouvelle catégorie.  Leur but est d'offrir une \BB englobant
+		plusieurs opérations, de la même manière que les opérations vectorisées, mais de manière plus flexible et facile à implémenter:
+
+		\subsection{Principes d'une \BO}
 		
 		Les \BO contiennent une \BB et une référence vers une opération antérieure.
 		La rasterisation des \emph{Bounding Opérations} fonctionne de la manière suivante:
@@ -183,7 +217,7 @@
 		\end{itemize}
 
 		En créant une \BO dont la \BB englobe les \BB d'une suite
-		d'opérations qui la précedent, et en faisant pointer la \BO sur une opération précédant 
+		d'opérations qui la précèdent, et en faisant pointer la \BO sur une opération précédant 
 		cette suite, on permet à l'algorithme de rasterisation de contourner la suite d'opérations.
 		
 		Ce principe est représenté au schéma~\ref{fig:bo}, page~\pageref{fig:bo}
@@ -195,28 +229,28 @@
 		\begin{figure}[ht]
 			\centering
 			\includegraphics[width=\textwidth]{images/bo2} 
-			\label{fig:bo2}
 			\caption{Une Bounding Operation Hierarchy}
+			\label{fig:bo2}
 		\end{figure}
 
 		Là où les \BO deviennent très intéressantes c'est qu'on peut les emboiter les unes dans les
 		autres de manière récursive, et ainsi offrir une structure semblable à une \emph{Bounding Volume Hierarchy} 
 		--- \emph{BVH} en abrégé --- ou à des \emph{KD-Trees}. On appelle \emph{Bounding Operation Hierarchy} --- \emph{BOH}
-		en abrégé --- ce type de structures. Lorsque les \BO ne s'imbriquent pas, on appelle la structure \emph{Bounding Object Sequence},
+		en abrégé --- L'implémentation par des \BO de ce type de structures. Lorsque les \BO ne s'imbriquent pas, on parle alors de \emph{Bounding Object Sequence},
 		--- \emph{BOS} en abrégé. Un exemple de \emph{BOH} est représenté au schéma~\ref{fig:bo2}, pageref~\pageref{fig:bo2} 
 
 		\begin{figure}[ht]
 			\centering
 			\includegraphics[width=\textwidth]{images/bo3} 
-			\label{fig:bo3}
 			\caption{Cas critique pour les \emph{BOH}}
+			\label{fig:bo3}
 		\end{figure}
 		Il y a cependant une grande différence entre les \emph{BVH}, et les \emph{BOH}; là où un \emph{Bounding Volume}
 		peut contenir n'importe quel ensemble
-		d'objets dans la scène, une \BO ne peut contenir que des opérations qui se suivent temporellement. Il
+		d'objets dans la scène, une \BO ne peut contenir que des opérations qui sont adjascentes dans la pile. Il
 		est très simple de construire un exemple ou les \emph{BVH} excellent et les \emph{BOH} ne font qu'empirer
 		les choses, comme sur le schéma~\ref{fig:bo3}, page~\pageref{fig:bo3}. Heureusement de tels cas arrivent peu 
-		en pratique, puisque les outils de peinture tendent à grouper les opérations.
+		en pratique, puisque les outils de peinture tendent à grouper les opérations de manière adéquate.
 
 		Il serait cependant possible d'approcher l'efficacité d'un \emph{BVH} en procédant à un réordonancement intelligent
 		des opérations. 
@@ -242,8 +276,7 @@
 		et l'autre des \emph{BOH}. 
 		
 		\subsection{Bounding Operation Sequence}
-			Le premier algorithme testé et implémenté est un algorithme créant une suite de \BO plutôt
-			qu'une hiérarchie.
+			Le premier algorithme testé et implémenté est un algorithme créant un \emph{BOS}
 			
 			\subsubsection{Placement des \BO dans la pile}
 			Le placement des \BO dans la pile fonctionne de la manière suivante: Initialement, la \BO possède une \BB
@@ -258,30 +291,29 @@
 
 			\subsubsection{Fermer les \emph{Bounding Operations}}
 			Ce premier algorithme va donc ajouter des \BO ouvertes, les fermer au moment opportun et puis directement 
-			en rajouter une nouvelle ouverte. La question est donc quand fermer les \BO. Il s'agit ici plus
-			de trouver une bonne heuristique que d'établir une stratégie optimale. Il y a plusieurs critères de clotures
-			que nous pouvons combiner:
+			en rajouter une nouvelle ouverte. Il s'agit donc de savoir quand fermer les \BO.
 
+			L'impact des performances des \BO peut se répartir en deux cas :
 			\begin{description}
-				\item[Rapport de surface des \BB]. Nous comparons ici le rapport entre la surface de
-				la \BB de la \BO, et la surface couverte par l'union de \BB des opérations contenues. Plus ce rapport
-				est grand, moins la \BB de la \BO correspond bien à la surface couverte par les opérations, et donc
-				moins elle est efficace. Un rapport maximal peut donc être envisagé comme critère de cloture.
-				\item[Nombre d'opérations dans \BO]. Au plus la \BO contient d'opérations,
-				Au moins d'opérations devront être examinées en dehors de la BB de celle-ci, mais au plus il
-				faudra en tester à l'intérieur de celle-ci. Un compromis optimal est difficile à trouver puisque
-				celui-ci dépend de l'échelle de visualisation. 
-
-				\item[Sauvegarde d'un état] Bien que les \BO sont capable d'englober des états, la sauvegarde
-				d'un état marque la cloture d'un trait et donc une grande probabilité de discontinuité dans
-				le placement des opérations. 
+				\item[Rendu d'un tile à l'extérieur de la \BO]: Dans ce cas, on doit effectuer un test de \BB de la \BO
+				uniquement. Comme on aimerait diminuer le nombre de tests de \BB, on aimerait donc avoir un nombre minimal
+				de \BO.
+				\item[Rendu d'un tile à l'intérieur de la \BB]: Dans ce cas, on doit tester les \BB de toutes les 
+				opérations à l'intérieur de la \BO, que celles ci influence le tile ou pas. On aimerait donc avoir le moins
+				de Rendus à l'intérieur de \BO. Statistiquement, plus la surface de la \BB d'une \BO est petite, moins de
+				tiles seront rendus à l'intérieur. On aimerait donc avec des \BO avec les \BB les plus petites possibles.
 			\end{description}
-			Différentes heuristiques basées sur ces critères ont été testées : /TODO resultat des perfs.
+			
+			La fermeture des \BO doit donc satisfaire deux critères: avoir le moins de \BO, et avoir les \BO les plus petites. 
+			Ces deux critères étant opposés, nous allons examiner leur importance en examinant différents schémas de fermeture
+			dans la section \emph{analyse de performances}
+			
 
 		\subsection{Bounding Operation Hierarchy}
 			Cet algorithme permet de créer une hiérarchie de \BO d'une profondeur fixe. Dans cet algorithme chaque niveau
 			fonctionne exactement comme l'algorithme précédent en considérant les \BO des opérations d'en dessous comme
-			des opérations classiques. Chaque niveau pouvant avoir une heuristique séparée. 
+			des opérations classiques. Une première analyse d'efficacité se trouve à la section \emph{Analyse des performances}
+
 
 		\subsection{Impact sur l'API}
 			Les \BO ont un impact minimal sur l'API. Il suffit d'ajouter une opération de type \BO avec les paramètres
@@ -293,14 +325,14 @@
 			indice. 
 
 			Si l'algorithme de rasterisation ne doit pas être grandement modifié, les algorithmes de modification
-			de la pile doivent être revus pour préserver la cohérence des BVH.
+			de la pile doivent être revus pour préserver la cohérence des \emph{BOH}.
 
 			\subsubsection{Forking}
 			\begin{figure}[ht]
 				\centering
 				\includegraphics[width=\textwidth]{images/bo-forking} 
-				\label{fig:bo-forking}
 				\caption{Forker des \BO}
+				\label{fig:bo-forking}
 			\end{figure}
 			L'opération de forking doit duplique également les \BO. Le schéma~\ref{fig:bo-forking}, page~\pageref{fig:bo-forking} montre une pile
 			contenant des \BO avant et après forking. 
@@ -323,8 +355,8 @@
 			\begin{figure}[ht]
 				\centering
 				\includegraphics[width=\textwidth]{images/bo-supress} 
-				\label{fig:bo-supress}
 				\caption{Retirer une opération pointée par une \BO}
+				\label{fig:bo-supress}
 			\end{figure}
 			Le retrait d'une opération dans la pile peut être problématique si un \BO pointe sur cette opération. Dans de
 			tel cas, il faut détecter les \BO qui pointent et les faire pointer vers l'opération précédente à celle
@@ -342,8 +374,8 @@
 			\begin{figure}[ht]
 				\centering
 				\includegraphics[width=\textwidth]{images/bo-modify} 
-				\label{fig:bo-modify}
 				\caption{Modifier une opération dans une pile contenant des \BO}
+				\label{fig:bo-modify}
 			\end{figure}
 			Insérer ou modifier des opérations peut invalider les \BB des \BO qui englobent ces opérations. Il faut
 			donc détecter ces \BO, et modifier leur \BB afin qu'elles contiennent la \BB de l'opération à insérer, ou la
@@ -363,6 +395,9 @@
 			un cas d'utilisation différent. Ces dessins de taille variable ont été réalisés sur une feuille de $4.8*10^17$ pixels. Nous avons 
 			ensuite rejoué ces étapes (ajout d'opérations, rasterisation, zoom, dézoom, undo, redo,
 			déplacement du viewport) en ommettant les pauses afin de mesurer le temps total pris par le framework pour dessiner le dessin.
+			
+			Toutes les expériences ont été réalisées sur une machine disposant d'un processeur \emph{Intel Core Duo 2400} à deux cores cadancés
+			à 1.66Ghz, et disposant de 2Go de mémoire vive. 
 
 			\begin{figure}[h]
 				\centering
@@ -374,15 +409,32 @@
 				\subfloat[$(e)$~Test divers, $0.5$Gpixels]{ \label{fig:testc} \includegraphics[width=0.5\textwidth]{images/tests/test_e} }
 				\\
 				\subfloat[$(d)$~Paysage avec petits détails, $2$Gpixels]{ \label{fig:testd} \includegraphics[width=\textwidth]{images/tests/test_d} }
-				\label{fig:testdrawings}
 				\caption{Dessins utilisés pour les tests de performances}
+				\label{fig:testdrawings}
 			\end{figure}
 
-			Les cinq dessins sont présentés à la figure~\ref{fig:testdrawings}, page~\pageref{fig:testdrawings}
+			Les cinq dessins sont présentés à la figure~\ref{fig:testdrawings}, page~\pageref{fig:testdrawings}. Chacun d'entre eux a été
+			réalisé pour simuler un cas d'utilisation différent:
+			\begin{description}
+				\item[A] Ce dessin représente un dessin techinque, composé essentiellement de lignes droites d'orientation similaires, ainsi
+				que d'arcs de cercles. 
+				\item[B] Ce dessin représente des hachures, qui peuvent constituer l'essentiel d'un dessin au trait.
+				\item[C] Ce portrait est destiné à représenté un dessin complet qui comprend une variété de technique différentes : traits de contour,
+				remplissages, hachures, ...
+				\item[D] Ce paysage de grande taille contenant de très petits éléments simule l'utilisation du framework pour l'édition d'images
+				gigapixel à des échelles fort différentes.
+				\item[E] Ce dessin est constitué de différents éléments ayant posé problèmes lors des tests de performances, comme par exemple 
+				des brushes et des traits de taille très différentes. 
+			\end{description}
+			Ces dessins sont en noir et blanc pour limiter le nombre d'opération nécessaires à leur réalisation. En effet les dessins ont été faits 
+			suffisemment petits pour limiter le temps de calcul lors de l'évaluation des performances. Ces dessins ne sont donc pas totalement
+			représentatifs de ce qui se fait en conditions réelles, mais devraient être suffisemment proche pour nous permettre de savoir quelle
+			solutions gagneraient à être explorées plus en détail sur des données en provenance de tests utilisateurs.
 
 			\subsubsection{Taille des \BO}
 				Le premier test utilise une heuristique qui ferme la boite quand celle-ci contient un certain nombre d'opérations, ou
-				quand un nouvel état est enregistré.
+				quand un nouvel état est enregistré. À noter que cette heuristique correspond exactement au système d'opération vectorisées,
+				qui produit des temps de calculs quasiment identiques. 
 
 				\begin{table*}
 					\tiny
@@ -410,7 +462,25 @@
 					\label{fig:depthgraph}
 				\end{figure}
 				
-				Le tableau ... évalue l'influence du nombre d'opérations par \BO sur la fluidité du programme. 
+				Le tableau~\ref{boxdepth}, page~\pageref{boxdepth}, reprend les résultats des expériences pour différentes tailles de boites.
+				Le graphe~\ref{fig:depthgraph}, page~\pageref{depthgraph} reprend ces données en normalisant les durées d'exécution de chaque
+				test sur la durée la plus rapide. 
+
+				On peut y voir que les performances augmentent avec la taille des \BO pour ne jamais redescendre. On en déduit donc que 
+				la taille de la boite importe beaucoup moins que leur nombre. Si les performances ne diminuent pas plus au delà d'un
+				certain nombre d'opérations par \BO, c'est parce qu'à partir d'un certain point, les \BO sont toutes fermées par 
+				l'enregistrement d'un nouvel état. 
+
+			\subsubsection{Aire accumulée}
+				Cette heuristique basée sur l'aire accumulée essaie d'établir un compromis entre la taille des \BO et le nombre d'opérations
+				contenues dans celles-ci:
+
+				A chaque fois que l'on insère une opération dans une \BO, on évalue l'augmentation de la surface de la \BB de celle-ci. 
+				On normalise ensuite cette augmentation de surface par la taille de la \BB de l'opération ajoutée. Cette augmentation
+				de surface est accumulée dans un compteur dans la \BO. Lorsque celle-ci dépasse un seuil, la \BO est fermée. 
+
+				Cette heuristique favorise donc des \BO plus denses, ce qui l'on espère, permettra d'avoir une meilleure répartion des
+				\BO.
 
 				\begin{table*}
 					\tiny
@@ -424,20 +494,38 @@
 						\hline
 						Dessin & \multicolumn{8}{c|}{Temps de calcul (sec)} \\
 						\hline
-						D		& 656.04	&  358.37	&  158.52	&  153.24	&  159.39	&  149.18	&  148.01	&  98.38	\\
 						A		& 70.85		&  51.89	&  41.54	&  37.51	&  35.72	&  34.89	&  36.23	&  54.46	\\
 						B		& 225.32	&  139.10	&  100.74	&  83.29	&  45.69	&  42.70	&  41.45	&  43.58	\\
-						E		& 16.21		&  12.59	&  11.73	&  12.30	&  11.44	&  10.62	&  11.13	&  10.66	\\
 						C		& 585.40	&  321.23	&  141.87	&  163.36	&  156.43	&  145.06	&  143.24	&  141.66	\\
+						D		& 656.04	&  358.37	&  158.52	&  153.24	&  159.39	&  149.18	&  148.01	&  98.38	\\
+						E		& 16.21		&  12.59	&  11.73	&  12.30	&  11.44	&  10.62	&  11.13	&  10.66	\\
 						\hline
 					\end{tabular*}
 				\end{table*}
 				\begin{figure}[h]
 					\centering
 					\includegraphics[width=\textwidth]{images/graph_ratio.eps} 
-					\label{fig:depthgraph}
+					\label{fig:ratiograph}
 				\end{figure}
+				Les résultats des expériences sont repris au tableau~\ref{boxratio}, page~\pageref{boxratio}. Celles-ci sont également
+				reprises normalisées sur leur meilleur temps au graphe~\ref{fig:ratiograph}, page~\pageref{ratiograph}.
 
+				On constate tout d'abord que cette heuristique ne permet pas d'atteindre les temps atteints par la précédente. On constate
+				ensuite que l'évolution des améliorations est moins régulière et reflète les différences de structure des différentes images. 
+				Cette évolution irrégulière a pour conséquence qu'aucune valeur n'est optimale pour tous les tests, indiquant que la limite doit
+				être modulée en fonction de l'utilisation du framework. 
+
+				On constate également que cette heuristique fonctionne le moins bien pour les images \emph{A} et \emph{C}, qui contiennent
+				beaucoup de diagonales.  Le problème de cette heuristique avec ces diagonales c'est que celles-ci sont particulièrement mal
+				épousées par les \BB qui sont alignées aux axes. Dans ces cas l'aire est accumulée quadratiquement avec la longueur, et donc
+				les boites sont cloturées trop tôt. Ceci génère un trop grand nombre de \BO, et comme le résultat de l'expérience précédente
+				nous indique, les performances sont fortement affectées par un nombre trop grand de celles-ci. 
+
+			\subsubsection{\emph{BOH}}
+				Nous utilisons pour cette troisième heuristique une \emph{BOH} à deux niveaux. Les \BO du premier niveau se cloturent
+				au delà d'un nombre fixe d'opérations, de la mème manière que la première heuristique. Les \BO du second niveau ne sont
+				quand à elles cloturées qu'à l'ajout d'un nouvel état. Cette heuristique permet donc d'évaluer les gains que l'on peut
+				obtenir en rajoutant un second niveau. 
 				\begin{table*}
 					\tiny
 					\label{boxdepth1}
@@ -463,56 +551,66 @@
 					\includegraphics[width=\textwidth]{images/depthgraphd1.eps} 
 					\label{fig:depthgraphd1}
 				\end{figure}
+				Les résultats sont résumés dans le tableau~\ref{boxdepth1}, page~\pageref{boxdepth1}, et repris sous forme normalisée par leur
+				meilleur résultat au graphe~\ref{depthgraphd1}, page~\pageref{depthgraphd1}. 
 
-				\begin{table*}
-					\tiny
-					\label{boxdepthr1}
-					\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} | c || c | c | c | c | c | c | c | c | }
-						\hline
-						Dessin & \multicolumn{8}{c|}{Temps de calcul (sec)} \\
-						\hline
-						\BO Internes 	& \multicolumn{4}{c|}{32}					&  \multicolumn{4}{c|}{64}	\\					
-						\hline
-						\BO Externes	& 4		&  8		&  16		&  32		&  4		&  8		&  16		&  32		       \\
-						\hline
-						A		& 45.88		&  37.45	&  34.88	&  33.09	&  37.64	&  33.91	&  32.77	&  33.04	       \\
-						B 		& 100.87	&  47.39	&  43.65	&  43.07	&  49.19	&  43.15	&  42.85	&  41.30	       \\
-						C 		& 127.49	&  137.28	&  142.36	&  136.36	&  103.51	&  108.55	&  140.65	&  140.19		\\
-						D		& 193.25	&  153.72	&  142.94	&  140.80	&  156.07	&  145.47	&  139.30	&  134.22		\\
-						E		& 19.08		&  17.22	&  17.02	&  16.51	&  17.87	&  16.68	&  14.64	&  11.18	       \\
-						\hline
-						\BO Internes 	&  \multicolumn{4}{c|}{128}					& \multicolumn{4}{c|}{256}   \\
-						\hline
-						\BO Externes	&  4 		&  8		&  16		&  32		&  4		&  8		& 16		&  32		\\
-						\hline
-						A		&  35.29	&  33.64	&  50.20	&  54.35	&  53.44	&  54.52	&  57.16	&  55.31	\\
-						B 		&  43.39	&  50.90	&  63.60	&  63.78	&  65.60	&  66.61	&  46.07	&  42.05	\\
-						C 		&  142.59	&  136.45	&  138.14	&  138.23	&  139.82	&  97.75	&  88.15	&  138.16	\\
-						D		&  139.39	&  141.59	&  91.14	&  88.86	&  137.26	&  137.37	&  137.34	&  137.08	\\
-						E		&  12.81	&  11.17	&  10.95	&  10.66	&  11.02	&  11.07	&  10.75	&  10.56	\\
-						\hline
-					\end{tabular*}
-				\end{table*}
-				\begin{figure}[h]
-					\centering
-					\includegraphics[width=\textwidth]{images/depthgraphr1.eps} 
-					\label{fig:depthgraphr1}
-				\end{figure}
+				On constate que les différences de structure des dessins crée une grande variation dans les performances en fonction de
+				la taille des \BO internes, ainsi que l'absence d'un optimum commun, prouvant la nécessité d'une heuristique plus complexe
+				pour déterminer le moment optimum de fermeture des \BO internes. 
+
+				On constate également que les performances n'atteignent pas les systèmes à un seul niveau pour les Dessins \emph{A,B,E}.
+				Cela s'explique par le fait que ce dessins artificiels ne présentent pas des traits suffisemment longs et complexes pour 
+				qu'une sous-séparation de ceux-ci soit bénéfique. 
+
+				Par contre, si l'on observe quelque gains pour les dessins \emph{A} et \emph{B}, ceux-ci sont peu importants. Une raison possible
+				est le fait que pour les traits plus petits la \BO interne est redondante. 
+				
+			\subsection{Conclusion}
+				Le analyses de performances montrent que les \BO améliorent de manière substantielle les performances du framework pour la peinture.
+				Cependant des améliorations restent possibles, comme une heuristique de cloture plus intelligente, qui permettrait des niveaux de 
+				\BO supplémentaires qui englobent les états. 
+
+				Enfin les tests se sont concentrés sur le temps de rendu moyen d'une opération, il pourrait être intéressant de tenter de réduire
+				la variance des temps de rendu afin d'augmenter la fluidité lors d'édition interactive. 
+
+%			\subsubsection{\emph{BOH} 2}
+%				Cette troisième heuristique utilise également un \emph{BOH} à deux niveaux.
+%
+%				\begin{table*}
+%					\tiny
+%					\label{boxdepthr1}
+%					\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} | c || c | c | c | c | c | c | c | c | }
+%						\hline
+%						Dessin & \multicolumn{8}{c|}{Temps de calcul (sec)} \\
+%						\hline
+%						\BO Internes 	& \multicolumn{4}{c|}{32}					&  \multicolumn{4}{c|}{64}	\\					
+%						\hline
+%						\BO Externes	& 4		&  8		&  16		&  32		&  4		&  8		&  16		&  32		       \\
+%						\hline
+%						A		& 45.88		&  37.45	&  34.88	&  33.09	&  37.64	&  33.91	&  32.77	&  33.04	       \\
+%						B 		& 100.87	&  47.39	&  43.65	&  43.07	&  49.19	&  43.15	&  42.85	&  41.30	       \\
+%						C 		& 127.49	&  137.28	&  142.36	&  136.36	&  103.51	&  108.55	&  140.65	&  140.19		\\
+%						D		& 193.25	&  153.72	&  142.94	&  140.80	&  156.07	&  145.47	&  139.30	&  134.22		\\
+%						E		& 19.08		&  17.22	&  17.02	&  16.51	&  17.87	&  16.68	&  14.64	&  11.18	       \\
+%						\hline
+%						\BO Internes 	&  \multicolumn{4}{c|}{128}					& \multicolumn{4}{c|}{256}   \\
+%						\hline
+%						\BO Externes	&  4 		&  8		&  16		&  32		&  4		&  8		& 16		&  32		\\
+%						\hline
+%						A		&  35.29	&  33.64	&  50.20	&  54.35	&  53.44	&  54.52	&  57.16	&  55.31	\\
+%						B 		&  43.39	&  50.90	&  63.60	&  63.78	&  65.60	&  66.61	&  46.07	&  42.05	\\
+%						C 		&  142.59	&  136.45	&  138.14	&  138.23	&  139.82	&  97.75	&  88.15	&  138.16	\\
+%						D		&  139.39	&  141.59	&  91.14	&  88.86	&  137.26	&  137.37	&  137.34	&  137.08	\\
+%						E		&  12.81	&  11.17	&  10.95	&  10.66	&  11.02	&  11.07	&  10.75	&  10.56	\\
+%						\hline
+%					\end{tabular*}
+%				\end{table*}
+%				\begin{figure}[h]
+%					\centering
+%					\includegraphics[width=\textwidth]{images/depthgraphr1.eps} 
+%					\label{fig:depthgraphr1}
+%				\end{figure}
 
 
 
 
-\chapter{Anti-aliasing (15 pages) }
-	\section{Primitive de dessin}
-	\section{Problèmes d'échelle}
-		\subsection{Oversampling}
-	\section{Problèmes de superposition}
-	\section{Problèmes de bandes}
-	\section{Problème de blending à faible opacité}
-	\section{Problème de précision de positionement}
-\chapter{Test utilisateurs (10 pages) }
-	\section{Procédure}
-	\section{Résultats}
-	\section{Analyse}
-\chapter{Comparaison d'Himalaya aux autres frameworks}
-\chapter{Conclusion}
