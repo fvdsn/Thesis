@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="248.03149"
+   height="99.212593"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   version="1.0"
+   sodipodi:docname="couverture-pixels.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/fred/Cours/memoire/src/images/degrades.png"
+   inkscape:export-xdpi="600"
+   inkscape:export-ydpi="600">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3951">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop3953" />
+      <stop
+         style="stop-color:#aaaaaa;stop-opacity:1;"
+         offset="1"
+         id="stop3955" />
+    </linearGradient>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend"
+       style="overflow:visible">
+      <path
+         id="path3169"
+         d="M 0,0 L 5,-5 L -12.5,0 L 5,5 L 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <inkscape:perspective
+       id="perspective4775"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="1"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4"
+     inkscape:cx="117.27985"
+     inkscape:cy="48.805223"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="cm"
+     inkscape:window-width="1024"
+     inkscape:window-height="698"
+     inkscape:window-x="0"
+     inkscape:window-y="24" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717223, 0.58717223;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 204.95206,18.307364 L 204.95206,76.367821"
+       id="path5217" />
+    <path
+       id="path5223"
+       d="M 234.73229,47.337593 L 175.17183,47.337593"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717225, 0.58717225;stroke-dashoffset:0;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+       x="121.26881"
+       y="91.174149"
+       id="text4878"><tspan
+         sodipodi:role="line"
+         id="tspan4880"
+         x="121.26881"
+         y="91.174149"
+         style="font-size:6px">(b)</tspan></text>
+    <text
+       id="text4882"
+       y="91.174149"
+       x="201.86121"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+       xml:space="preserve"><tspan
+         style="font-size:6px"
+         y="91.174149"
+         x="201.86121"
+         id="tspan4884"
+         sodipodi:role="line">(c)</tspan></text>
+    <g
+       id="g5021"
+       transform="translate(-60.45763,0)">
+      <path
+         id="path4955"
+         d="M 76,18.307364 L 76,76.367821"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717223, 0.58717223;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717223, 0.58717223;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 105.25,18.307364 L 105.25,76.367821"
+         id="path4957" />
+      <path
+         id="path4961"
+         d="M 134.76517,18.307364 L 134.76517,76.367821"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717223, 0.58717223;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717225, 0.58717225;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 135.03023,18.087593 L 75.469774,18.087593"
+         id="path4963" />
+      <path
+         id="path4965"
+         d="M 135.03023,47.337593 L 75.469774,47.337593"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717225, 0.58717225;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717225, 0.58717225;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 135.03023,76.587593 L 75.469774,76.587593"
+         id="path4967" />
+      <path
+         d="M 131.52186,52.720322 A 19.975767,19.79899 0 1 1 91.57033,52.720322 A 19.975767,19.79899 0 1 1 131.52186,52.720322 z"
+         sodipodi:ry="19.79899"
+         sodipodi:rx="19.975767"
+         sodipodi:cy="52.720322"
+         sodipodi:cx="111.5461"
+         id="path4969"
+         style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:0.5, 0.5;stroke-dashoffset:0;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         id="path4985"
+         d="M 105.25,34.102537 L 105.25,71.356024"
+         style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.58717221;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717222, 0.58717222;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.58717233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717221, 0.58717221;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 130.37419,47.337593 L 93.030497,47.337593"
+         id="path4987" />
+      <text
+         id="text4989"
+         y="30.807741"
+         x="84.573006"
+         style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         xml:space="preserve"><tspan
+           y="30.807741"
+           x="84.573006"
+           id="tspan4991"
+           sodipodi:role="line">a</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         x="119.75157"
+         y="30.807741"
+         id="text4993"><tspan
+           sodipodi:role="line"
+           id="tspan4995"
+           x="119.75157"
+           y="30.807741">b</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         x="84.573006"
+         y="65.102417"
+         id="text4997"><tspan
+           sodipodi:role="line"
+           id="tspan4999"
+           x="84.573006"
+           y="65.102417">c</tspan></text>
+      <text
+         id="text5001"
+         y="73.5877"
+         x="127.52975"
+         style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         xml:space="preserve"><tspan
+           y="73.5877"
+           x="127.52975"
+           id="tspan5003"
+           sodipodi:role="line">d</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         x="96.94738"
+         y="45.303429"
+         id="text5005"><tspan
+           sodipodi:role="line"
+           id="tspan5007"
+           x="96.94738"
+           y="45.303429">w</tspan></text>
+      <text
+         id="text5009"
+         y="45.303429"
+         x="112.15018"
+         style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         xml:space="preserve"><tspan
+           y="45.303429"
+           x="112.15018"
+           id="tspan5011"
+           sodipodi:role="line">x</tspan></text>
+      <text
+         id="text5013"
+         y="58.915234"
+         x="96.94738"
+         style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         xml:space="preserve"><tspan
+           y="58.915234"
+           x="96.94738"
+           id="tspan5015"
+           sodipodi:role="line">y</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         x="112.15018"
+         y="58.915234"
+         id="text5017"><tspan
+           sodipodi:role="line"
+           id="tspan5019"
+           x="112.15018"
+           y="58.915234">z</tspan></text>
+    </g>
+    <g
+       id="g5177">
+      <rect
+         y="47.417023"
+         x="124.34631"
+         height="29.355654"
+         width="29.480654"
+         id="rect5104"
+         style="opacity:1;fill:#ff0000;fill-opacity:0.62745098;stroke:none;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:0.5, 0.5;stroke-dashoffset:0;stroke-opacity:1" />
+      <rect
+         style="opacity:1;fill:#ff0000;fill-opacity:0.33333333;stroke:none;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:0.5, 0.5;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect5106"
+         width="29.168154"
+         height="29.355654"
+         x="95.137108"
+         y="47.417023" />
+      <rect
+         style="opacity:1;fill:#ff0000;fill-opacity:0.33333333;stroke:none;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:0.5, 0.5;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect5102"
+         width="29.480654"
+         height="29.355654"
+         x="124.31506"
+         y="18.07209" />
+      <rect
+         y="18.07209"
+         x="95.105858"
+         height="29.355654"
+         width="29.168154"
+         id="rect5100"
+         style="opacity:1;fill:#ff0000;fill-opacity:0.1254902;stroke:none;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:0.5, 0.5;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717223, 0.58717223;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 95.091879,18.307364 L 95.091879,76.367821"
+         id="path5050" />
+      <path
+         id="path5052"
+         d="M 124.34188,18.307364 L 124.34188,76.367821"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717223, 0.58717223;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717223, 0.58717223;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 153.85705,18.307364 L 153.85705,76.367821"
+         id="path5054" />
+      <path
+         id="path5056"
+         d="M 154.12211,18.087593 L 94.561659,18.087593"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717225, 0.58717225;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717225, 0.58717225;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 154.12211,47.337593 L 94.561659,47.337593"
+         id="path5058" />
+      <path
+         id="path5060"
+         d="M 154.12211,76.587593 L 94.561659,76.587593"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717225, 0.58717225;stroke-dashoffset:0;stroke-opacity:1" />
+      <g
+         transform="matrix(0.6847716,0,0,0.6847716,30.210282,10.212767)"
+         id="g5130">
+        <text
+           id="text5068"
+           y="30.807741"
+           x="114.9786"
+           style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+           xml:space="preserve"><tspan
+             id="tspan5108"
+             y="30.807741"
+             x="114.9786"
+             sodipodi:role="line"
+             style="text-align:center;text-anchor:middle">w</tspan></text>
+        <path
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.73017043;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 108.71767,31.860672 L 122.1527,31.860672"
+           id="path5124" />
+        <text
+           xml:space="preserve"
+           style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+           x="115.68571"
+           y="38.585915"
+           id="text5126"><tspan
+             sodipodi:role="line"
+             x="115.68571"
+             y="38.585915"
+             id="tspan5128">a+w</tspan></text>
+      </g>
+      <g
+         id="g5137"
+         transform="matrix(0.6863316,0,0,0.6863316,59.664832,9.9230257)">
+        <text
+           xml:space="preserve"
+           style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+           x="114.9786"
+           y="30.807741"
+           id="text5139"><tspan
+             style="text-align:center;text-anchor:middle"
+             sodipodi:role="line"
+             x="114.9786"
+             y="30.807741"
+             id="tspan5141">b</tspan></text>
+        <path
+           id="path5143"
+           d="M 108.71767,31.860672 L 122.1527,31.860672"
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.7285108;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text5145"
+           y="38.585915"
+           x="115.68571"
+           style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+           xml:space="preserve"><tspan
+             id="tspan5147"
+             y="38.585915"
+             x="115.68571"
+             sodipodi:role="line">x+b</tspan></text>
+      </g>
+      <g
+         id="g5149"
+         transform="matrix(0.7005855,0,0,0.7005855,28.150489,39.999262)">
+        <text
+           xml:space="preserve"
+           style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+           x="114.9786"
+           y="30.807741"
+           id="text5151"><tspan
+             style="text-align:center;text-anchor:middle"
+             sodipodi:role="line"
+             x="114.9786"
+             y="30.807741"
+             id="tspan5153">y</tspan></text>
+        <path
+           id="path5155"
+           d="M 108.71767,31.860672 L 122.1527,31.860672"
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.71368879;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text5157"
+           y="38.585915"
+           x="115.68571"
+           style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+           xml:space="preserve"><tspan
+             id="tspan5159"
+             y="38.585915"
+             x="115.68571"
+             sodipodi:role="line">c+y</tspan></text>
+      </g>
+      <g
+         transform="matrix(0.695039,0,0,0.695039,58.216684,39.98289)"
+         id="g5161">
+        <text
+           id="text5163"
+           y="30.807741"
+           x="114.9786"
+           style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+           xml:space="preserve"><tspan
+             id="tspan5165"
+             y="30.807741"
+             x="114.9786"
+             sodipodi:role="line"
+             style="text-align:center;text-anchor:middle">z</tspan></text>
+        <path
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.71938401;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 108.71767,31.860672 L 122.1527,31.860672"
+           id="path5167" />
+        <text
+           xml:space="preserve"
+           style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+           x="115.68571"
+           y="38.585915"
+           id="text5169"><tspan
+             sodipodi:role="line"
+             x="115.68571"
+             y="38.585915"
+             id="tspan5171">d+z</tspan></text>
+      </g>
+    </g>
+    <text
+       id="text5173"
+       y="91.174149"
+       x="41.012188"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+       xml:space="preserve"><tspan
+         style="font-size:6px"
+         y="91.174149"
+         x="41.012188"
+         id="tspan5175"
+         sodipodi:role="line">(a)</tspan></text>
+    <rect
+       style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5265"
+       width="35.88567"
+       height="35.88567"
+       x="193.39369"
+       y="34.865875" />
+    <path
+       id="path5215"
+       d="M 175.70206,18.307364 L 175.70206,76.367821"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717223, 0.58717223;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       id="path5219"
+       d="M 234.46722,18.307364 L 234.46722,76.367821"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717223, 0.58717223;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717225, 0.58717225;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 234.73229,18.087593 L 175.17183,18.087593"
+       id="path5221" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.58717233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717225, 0.58717225;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 234.73229,76.587593 L 175.17183,76.587593"
+       id="path5225" />
+    <path
+       id="path5229"
+       d="M 204.95206,35.497235 L 204.95206,70.314878"
+       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.58717227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.58717222, 0.58717222;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.58717233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.5871722, 0.5871722;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 228.59523,47.337593 L 193.94838,47.337593"
+       id="path5231" />
+    <text
+       id="text5233"
+       y="30.807741"
+       x="184.27505"
+       style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+       xml:space="preserve"><tspan
+         y="30.807741"
+         x="184.27505"
+         id="tspan5235"
+         sodipodi:role="line">a</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+       x="219.45363"
+       y="30.807741"
+       id="text5237"><tspan
+         sodipodi:role="line"
+         id="tspan5239"
+         x="219.45363"
+         y="30.807741">b</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+       x="184.27505"
+       y="65.102417"
+       id="text5241"><tspan
+         sodipodi:role="line"
+         id="tspan5243"
+         x="184.27505"
+         y="65.102417">c</tspan></text>
+    <text
+       id="text5245"
+       y="75.5877"
+       x="228.4818"
+       style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+       xml:space="preserve"><tspan
+         y="75.5877"
+         x="228.4818"
+         id="tspan5247"
+         sodipodi:role="line">d</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+       x="196.64943"
+       y="45.303429"
+       id="text5249"><tspan
+         sodipodi:role="line"
+         id="tspan5251"
+         x="196.64943"
+         y="45.303429">w</tspan></text>
+    <text
+       id="text5253"
+       y="45.303429"
+       x="214.3271"
+       style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+       xml:space="preserve"><tspan
+         y="45.303429"
+         x="214.3271"
+         id="tspan5255"
+         sodipodi:role="line">x</tspan></text>
+    <text
+       id="text5257"
+       y="58.915234"
+       x="196.64943"
+       style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+       xml:space="preserve"><tspan
+         y="58.915234"
+         x="196.64943"
+         id="tspan5259"
+         sodipodi:role="line">y</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:11.05208111px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+       x="214.3271"
+       y="58.915234"
+       id="text5261"><tspan
+         sodipodi:role="line"
+         id="tspan5263"
+         x="214.3271"
+         y="58.915234">z</tspan></text>
+    <path
+       d="M 131.52186,52.720322 A 19.975767,19.79899 0 1 1 91.57033,52.720322 A 19.975767,19.79899 0 1 1 131.52186,52.720322 z"
+       sodipodi:ry="19.79899"
+       sodipodi:rx="19.975767"
+       sodipodi:cy="52.720322"
+       sodipodi:cx="111.5461"
+       id="path5227"
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.50000000000000000;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.50180507"
+       sodipodi:type="arc"
+       transform="translate(99.702055,0)" />
+  </g>
+</svg>
