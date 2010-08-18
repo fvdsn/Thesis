@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448"
+   height="530"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   version="1.0"
+   sodipodi:docname="screenshot.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/fred/Cours/memoire/src/images/screenshot.png"
+   inkscape:export-xdpi="193.5238"
+   inkscape:export-ydpi="193.5238">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend"
+       style="overflow:visible">
+      <path
+         id="path3305"
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.97309,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend"
+       style="overflow:visible">
+      <path
+         id="path3293"
+         d="M 0,0 L 5,-5 L -12.5,0 L 5,5 L 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <inkscape:perspective
+       id="perspective2447"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <filter
+       inkscape:collect="always"
+       id="filter3275"
+       x="-0.034757733"
+       width="1.0695155"
+       y="-0.17748791"
+       height="1.3549758">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="2.0193108"
+         id="feGaussianBlur3277" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="442.64946"
+     inkscape:cy="262.95303"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1024"
+     inkscape:window-height="698"
+     inkscape:window-x="0"
+     inkscape:window-y="24" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <image
+       y="8.8516693"
+       x="10.071069"
+       id="image2449"
+       height="512.30957"
+       width="726.59973"
+       sodipodi:absref="/home/fred/Cours/memoire/src/images/himalaya-screenshot/screenshot.png"
+       xlink:href="himalaya-screenshot/screenshot.png" />
+    <g
+       id="g4582"
+       transform="translate(294.96455,-7.0710678)">
+      <rect
+         style="opacity:0.64561403;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3275)"
+         id="rect3229"
+         width="139.43216"
+         height="27.305218"
+         x="137.36519"
+         y="69.468216" />
+      <rect
+         y="68.458061"
+         x="136.35504"
+         height="27.305218"
+         width="139.43216"
+         id="rect2453"
+         style="opacity:0.64561403;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0;stroke-opacity:1" />
+      <text
+         id="text2455"
+         y="85.646194"
+         x="148.49242"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         xml:space="preserve"><tspan
+           y="85.646194"
+           x="148.49242"
+           id="tspan2457"
+           sodipodi:role="line"
+           style="font-size:14px">Sélecteur de couleur</tspan></text>
+      <path
+         id="path3279"
+         d="M 275.26657,82.615739 L 318.19805,82.615739"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow2Lend);stroke-opacity:1" />
+    </g>
+    <g
+       transform="translate(294.96455,79.802051)"
+       id="g4589">
+      <rect
+         y="69.468216"
+         x="137.36519"
+         height="27.305218"
+         width="139.43216"
+         id="rect4591"
+         style="opacity:0.64561403;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3275)" />
+      <rect
+         style="opacity:0.64561403;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect4593"
+         width="139.43216"
+         height="27.305218"
+         x="136.35504"
+         y="68.458061" />
+      <text
+         xml:space="preserve"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         x="144.45181"
+         y="85.646194"
+         id="text4595"><tspan
+           style="font-size:14px"
+           sodipodi:role="line"
+           id="tspan4597"
+           x="144.45181"
+           y="85.646194">Paramètres du pinceau</tspan></text>
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow2Lend);stroke-opacity:1"
+         d="M 275.26657,82.615739 L 318.19805,82.615739"
+         id="path4599" />
+    </g>
+    <g
+       id="g4601"
+       transform="translate(294.96455,145.46197)">
+      <rect
+         style="opacity:0.64561403;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3275)"
+         id="rect4603"
+         width="139.43216"
+         height="27.305218"
+         x="137.36519"
+         y="69.468216" />
+      <rect
+         y="68.458061"
+         x="136.35504"
+         height="27.305218"
+         width="139.43216"
+         id="rect4605"
+         style="opacity:0.64561403;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0;stroke-opacity:1" />
+      <text
+         id="text4607"
+         y="85.646194"
+         x="144.45181"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         xml:space="preserve"><tspan
+           y="85.646194"
+           x="144.45181"
+           id="tspan4609"
+           sodipodi:role="line"
+           style="font-size:14px">Position du viewport</tspan></text>
+      <path
+         id="path4611"
+         d="M 275.26657,82.615739 L 318.19805,82.615739"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow2Lend);stroke-opacity:1" />
+    </g>
+    <g
+       transform="translate(294.96455,178.797)"
+       id="g4613">
+      <rect
+         y="69.468216"
+         x="137.36519"
+         height="27.305218"
+         width="139.43216"
+         id="rect4615"
+         style="opacity:0.64561403;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3275)" />
+      <rect
+         style="opacity:0.64561403;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect4617"
+         width="139.43216"
+         height="27.305218"
+         x="136.35504"
+         y="68.458061" />
+      <text
+         xml:space="preserve"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         x="144.45181"
+         y="85.646194"
+         id="text4619"><tspan
+           style="font-size:14px"
+           sodipodi:role="line"
+           id="tspan4621"
+           x="144.45181"
+           y="85.646194">Taille du viewport</tspan></text>
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow2Lend);stroke-opacity:1"
+         d="M 275.26657,82.615739 L 318.19805,82.615739"
+         id="path4623" />
+    </g>
+    <g
+       id="g4625"
+       transform="translate(294.96455,215.16249)">
+      <rect
+         style="opacity:0.64561403;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3275)"
+         id="rect4627"
+         width="139.43216"
+         height="27.305218"
+         x="137.36519"
+         y="69.468216"
+         transform="matrix(1,0,0,1.5919176,0,-41.119464)" />
+      <rect
+         y="68.593636"
+         x="136.49062"
+         height="44.206657"
+         width="139.16101"
+         id="rect4629"
+         style="opacity:0.64561403;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.2711544;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:1.27115443, 1.27115443;stroke-dashoffset:0;stroke-opacity:1" />
+      <text
+         id="text4631"
+         y="85.646194"
+         x="144.45181"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         xml:space="preserve"><tspan
+           y="85.646194"
+           x="144.45181"
+           id="tspan4633"
+           sodipodi:role="line"
+           style="font-size:14px">Nombre d'opérations</tspan><tspan
+           y="103.14619"
+           x="144.45181"
+           sodipodi:role="line"
+           style="font-size:14px"
+           id="tspan4637">constituant l'image</tspan></text>
+      <path
+         id="path4635"
+         d="M 275.26657,82.615739 L 318.19805,82.615739"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow2Lend);stroke-opacity:1" />
+    </g>
+    <g
+       transform="translate(81.822363,267.69042)"
+       id="g4639">
+      <rect
+         y="69.468216"
+         x="137.36519"
+         height="27.305218"
+         width="139.43216"
+         id="rect4641"
+         style="opacity:0.64561403;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3275)" />
+      <rect
+         style="opacity:0.64561403;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect4643"
+         width="139.43216"
+         height="27.305218"
+         x="136.35504"
+         y="68.458061" />
+      <text
+         xml:space="preserve"
+         style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+         x="148.49242"
+         y="85.646194"
+         id="text4645"><tspan
+           style="font-size:14px"
+           sodipodi:role="line"
+           id="tspan4647"
+           x="148.49242"
+           y="85.646194">Curseur du pinceau</tspan></text>
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow2Lend);stroke-opacity:1"
+         d="M 275.26657,82.615739 L 318.19805,82.615739"
+         id="path4649" />
+    </g>
+  </g>
+</svg>
