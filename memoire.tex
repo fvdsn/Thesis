@@ -12,6 +12,7 @@
 \usepackage{wasysym}
 \usepackage{txfonts}
 \usepackage{listings}
+\usepackage{rotating}
 \usepackage{color}
 \definecolor{darkgray}{rgb}{0.25,0.25,0.25}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -21,6 +22,7 @@
 %\textwidth 17cm
 %\oddsidemargin 0cm
 %\evensidemargin -1cm
+\newcommand{\sw}[1]{\begin{sideways} #1 \end{sideways} }
 
 \renewcommand{\rmdefault}{ppl}	%Palatino
 %\renewcommand{\rmdefault}{bch}	%Bitstream charter
@@ -50,11 +52,12 @@
 \begin{document}
 	\rmfamily
 	\maketitle
-	%\include{body}
 	\include{chapter1}
 	\include{chapter2}
 	\include{chapter3}
 	\include{chapter4}
+	\include{chapter5}
+	\include{bibliography}
 	\tableofcontents
-	\printindex
+	%\printindex
 \end{document}

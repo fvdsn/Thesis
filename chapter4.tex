@@ -1,23 +1,23 @@
 \chapter{Anti-aliasing}
-	L'anti-aliasing est un problème pour tout framework d'édition d'image; la pluspart
-	des problèmes et des solutions sont donc connues. 
+	L'anti-aliasing est un problème pour tout framework d'édition d'image; la plupart
+	des problèmes et des solutions sont donc connues\footnote{\emph{AntiGrainGeometry} est un framework vectoriel open source spécialisé dans une gestion poussée de l'anti-aliasing}. 
 	Cependant l'édition d'image gigapixel est un problème relativement nouveau qui
 	apporte des nouveaux problèmes qui méritent notre attention. C'est sur ces problèmes
 	que nous nous sommes concentrés dans ce chapitre. 
 
 	La première chose à remarquer c'est que contrairement au raytracing dont il s'inspire,
 	l'algorithme de rasterisation de ce framework n'a aucun mécanisme
-	particulier pour gérer l'antialiasing. Il revient donc aux opérations de s'assurer que
+	particulier pour gérer l'anti-aliasing. Il revient donc aux opérations de s'assurer que
 	leur résultat est correctement anti-aliasé. La première partie examinera les 
 	problèmes que l'on peut résoudre au niveau des opérations. Nous examinerons ensuite 
 	une modification de l'algorithme de rasterisation pour apporter une solution globale à
-	l'antialiasing.
+	l'anti-aliasing.
 
 	\section{Anti-aliasing des opérations}
 
-	La seule opération que nous aillons testé étant le dessin de disque avec 
+	La seule opération que nous ayons testé étant le dessin de disque\footnote{L'antialiasing du disque lui même est réalisé avec la technique de Wu Xiaolin\cite{wucircle}} avec 
 	dégradé, on retrouvera dans cette section les problèmes posés par cette opération.
-	Cependant nombre de ces problèmes sont d'ordre géneral, et leurs solutions peuvent
+	Cependant nombre de ces problèmes sont d'ordre générale, et leurs solutions peuvent
 	s'appliquer à d'autres opérations de dessin de primitives. 
 
 		\begin{figure}[ht]
@@ -30,7 +30,7 @@
 	
 	Les paramètres qui la définissent sont sa position, sa couleur, son opacité globale, 
 	son rayon interne qui définit une zone de couleur unie, et son rayon externe. Entre le rayon interne
-	et externe, se trouve un dégradé d'opacité de profil gaussien.
+	et externe, se trouve un dégradé d'opacité de profil gaussien\footnote{C'est également le choix par défaut de \emph{Gimp} et \emph{Adobe Photoshop}}.
 
 	\subsection{Problèmes de bandes}
 		S'il n'est pas fait correctement, le dessin de dégradés fait apparaître des
@@ -62,8 +62,8 @@
 		\emph{POSIX} qui a l'inconvénient de ne pas être très rapide à calculer. Une amélioration possible est de
 		choisir un \emph{motif aléatoire}  de la taille d'un tile dans un ensemble de motifs
 		précalculés. Il faut faire attention lors de la génération de ces motifs, car il faut éviter
-		que leur supperposition lors de l'utilisation de plusieurs opérations en série
-		ne fasse pas apparaitre de motifs visibles. pour cela il faut que la somme des pixels de sur l'ensemble
+		que leur superposition lors de l'utilisation de plusieurs opérations en série
+		ne fasse pas apparaître de motifs visibles. pour cela il faut que la somme des pixels de sur l'ensemble
 		des motifs soit égale à une valeur constante pour tous les pixels. 
 
 	\subsection{Problèmes d'échelle}
@@ -78,7 +78,7 @@
 			\begin{figure}[ht]
 				\centering
 				\includegraphics[width=\textwidth]{images/couverture-pixels} 
-				\caption{Antialiasing de très petites primitives}
+				\caption{Anti-aliasing de très petites primitives}
 				\label{fig:couverture}
 			\end{figure}
 			Lorsque la primitive a une taille proche d'un pixel, elle peut couvrir partiellement
@@ -87,7 +87,7 @@
 
 			La meilleure solution pour rasteriser une telle figure est de colorer les pixels partiellement
 			couverts de manière proportionelle au rapport de l'aire de la primitive et du pixel, comme 
-			illustré sur le schémà (b) de la figure~\ref{fig:couverture}.
+			illustré sur le schéma (b) de la figure~\ref{fig:couverture}.
 			
 			La solution exacte nécessite de calculer l'aire de l'intersection d'un disque et d'un carré. 
 			La formule qui permet de calculer cela de manière analytique est malheureusement trop complexe pour
@@ -96,7 +96,7 @@
 
 			La solution retenue est d'approximer à petite échelle le disque par un carré d'aire équivalente.
 			Les dégradés sont eux approximés par des dégradés linaires. Ceci permet de calculer rapidement les
-			rapports de surface, sans trop grande erreur d'approximation.
+			rapports de surface, sans trop grande erreur d'approximation\footnote{Ceci est une adaptation de la technique des Wu-Pixels\cite{wupixel}}.
 
 		\subsubsection{Quantisation des très petites primitives }
 			Lorsqu'une primitive devient trop petite, il n'est plus possible de 
@@ -116,17 +116,17 @@
 			\begin{enumerate}
 				\item[ignorer la primitive] Si celle-ci est isolée, cela ne posera pas de problème. Mais si
 				de grandes surfaces, ou de longs traits sont composés de telles primitives, alors ceux-ci
-				disparaitront à une certaine échelle. Le schéma (a) de la figure~\ref{fig:petit} illustre ce problème; chacune des primtives
+				disparaîtront à une certaine échelle. Le schéma (a) de la figure~\ref{fig:petit} illustre ce problème; chacune des primitives
 				est trop petite pour modifier le pixel, mais prises ensembles, elles ont une contribution non
-				négligable. L'algorithme de rasterisation évaluant les primitives une par une ne pourra se
+				négligeable. L'algorithme de rasterisation évaluant les primitives une par une ne pourra se
 				rendre compte de ce fait, et ce pixel sera rasterisé entièrement blanc.
 
 				\item[colorer un minimum] Cette option consiste à faire contribuer toute primitive trop petite
-				comme si elle avait une surface d'$\frac{1}{256}$eme de pixel, le minimum représentable. 
+				comme si elle avait une surface d'$\frac{1}{256}$ème de pixel, le minimum représentable. 
 
 				Cela peut être une bonne solution pour les primitives isolées. Mais si le pixel est partiellement
 				couvert par un grand nombre de ces primitives, le pixel sera trop fortement coloré. Cette solution
-				mène inmanquablement à des artefacts innacceptables lors de la visualisation de l'image à grande échelle. 
+				mène immanquablement à des artefacts inacceptables lors de la visualisation de l'image à grande échelle. 
 
 				\item[une approche stochastique] Dans ce cas, soit la primitive contribue au pixel à un niveau
 				d'intensité minimum $I_m$,  soit elle est ignorée, et ce avec une probabilité proportionelle à son aire. 
@@ -138,9 +138,9 @@
 
 				Il faut faire bien attention dans le choix du niveau minimum d'intensité $I_m$. Si ce niveau est
 				choisi trop grand, le bruit de la sélection aléatoire deviendra visible. S'il est trop petit, 
-				alors nous aurons un problème de quantisation des couelurs :
+				alors nous aurons un problème de quantisation des couleurs :
 
-				Pronons l'exemple d'une primitive
+				Prenons l'exemple d'une primitive
 				de couleur 
 				\emph{(R,G,B) 8bit } $(255,120,60)$ et nous choisissons $I_m$ valant $\frac{1}{200}$ 
 				
@@ -156,12 +156,12 @@
 			Enfin notons que ce problème devrait être nettement moins apparent lorsque l'on utilise des modèles 
 			colorimétriques à 16 ou 32bit par canal.
 
-		\subsubsection{Superposition des très petites primitves}
-			L'approche qui consiste à remplir le pixel proportionellement à l'aire de la primitve ne fonctionne
+		\subsubsection{Superposition des très petites primitives}
+			L'approche qui consiste à remplir le pixel proportionnellement à l'aire de la primitive ne fonctionne
 			pas toujours lorsque l'on examine la contribution de plusieurs primitives à un seul pixel. 
-			Si celles-ci ne se supperposent pas dans le pixel, alors les approches expliquées précédemment fonctionnent.
-			Mais lorsque les opérations se supperposent, une erreur est commise.  Cette erreur est particulièrement
-			flagrante lorsque l'écrat des brushes dans le trait est particulièrement petit puisque dans ce cas elles
+			Si celles-ci ne se superposent pas dans le pixel, alors les approches expliquées précédemment fonctionnent.
+			Mais lorsque les opérations se superposent, une erreur est commise.  Cette erreur est particulièrement
+			flagrante lorsque l'écart des brushes dans le trait est particulièrement petit --- ce qui est le cas par défaut --- puisque dans ce cas elles
 			se superposent de manière importante.
 
 				\begin{figure}[ht]
@@ -171,29 +171,29 @@
 					\label{fig:superposition}
 				\end{figure}
 			
-			Ceci est illuststré à la figure~\ref{fig:superpositon}, page~\pageref{fig:superposition}. Les schémas (a) et (b)
+			Ceci est illustré à la figure~\ref{fig:superposition}, page~\pageref{fig:superposition}. Les schémas (a) et (b)
 			représentent chacun un pixel contenant le même nombre de primitives. Avec les approches précédentes, le trait (a)
 			sera rasterisé avec l'intensité du cas (b).
 
-			Une solution utilisée dans différents framework pour résoudre ce problème est de d'abord rasteriser le trait
+			Une solution utilisée dans différents framework\footnote{\emph{Gimp},\emph{Adobe Photoshop}, etc.} pour résoudre ce problème est de d'abord rasteriser le trait
 			dans un buffer transparent intermédiaire dans lequel le mode de fusion utilisé pour la rasterisation des 
-			brushes est le mode \emph{Maximum}. Au lieu de faire la somme des intensités, cet algorithme prend la maximum.  
+			brushes est le mode \emph{Maximum}. Au lieu de faire la somme des intensités, cet algorithme prend l'intensité maximale.  
 			Le buffer intermédiaire est ensuite rasterisé avec le mode
-			de fusion désiré sur le dessin.  Ainsi, la rasterisation d'un nombre quelquonque de primitives dans un seul pixel
+			de fusion désiré sur le dessin.  Ainsi, la rasterisation d'un nombre quelconque de primitives dans un seul pixel
 			est considérée comme la rasterisation de la plus grande d'entre elles. 
 			
-			les situations des schémas (a) et (b) seront donc rasterisées comme (c). Dans le cas représenté sur le schéma, 
+			les situations des schémas (a) et (b) seront donc rasterisées comme (c). Dans le cas du trait représenté sur le schéma (a), 
 			l'erreur commise est de même intensité avec les deux méthodes. Cependant, comme vu précédemment il vaut mieux
-			sous-estimer que sur-estimer les intensités. 
+			sous-estimer que surestimer les intensités. 
 
 			Le mode de fusion \emph{Maximum} a d'autres avantages pour les primitives de plus grande taille: repasser 
 			sur un trait n'augmente pas son intensité, ce qui facilite la peinture de large zones de manière uniforme. 
 
 			Passer par un buffer intermédiaire peut se faire en utilisant une hlImage séparée pour chaque trait, il va
-			donc de la responsabilité de l'utilisateur d'être au courant de cette solution et de l'utiliser lorsque cela
+			donc de la responsabilité de l'utilisateur de connaître cette solution et de l'utiliser lorsque cela
 			est nécessaire. 
 			
-			Cette solution n'a pas été implémentée ou testée dans Himalaya car l'intégration entre le systême d'état et
+			Cette solution n'a pas été implémentée ou testée dans Himalaya car l'intégration entre le système d'état et
 			les opérations de fusion n'a pas été entièrement implémenté. 
 			
 			Si elle fonctionne dans les autres frameworks, il est en revanche difficile de savoir si elle fonctionnera 
@@ -202,21 +202,21 @@
 		\subsection{Problème de fusion à faible opacité}
 			La fusion de primitives à faible opacité donne lieu à de fâcheux problèmes d'aliasing à cause de la quantisation.
 			Le problème est exactement le même que les aberrations de couleurs pour les très petites primitives: Si l'on
-			fait la fusion d'une primitve de couleur $(255,120,60)$ à 1\% d'opacité, on fera effectivement la fusion d'une
+			fait la fusion d'une primitive de couleur $(255,120,60)$ à 1\% d'opacité, on fera effectivement la fusion d'une
 			primitive de couleur $(2,0,0)$. Ce qui est une très mauvaise approximation de la couleur désirée. 
 			
-			Ce problème apparait de manière d'autant plus flagrante lorsque de nombreuses primtives de faible opacité se
+			Ce problème apparaît de manière d'autant plus flagrante lorsque de nombreuses primitives de faible opacité se
 			superposent et que les erreurs s'accumulent. 
 
 			La solution à ce problème utilisée par les autres frameworks consiste à passer par un buffer intermédiaire 
 			dans lequel toutes les primitives du trait sont fusionnées à 100\% d'opacité. Ce buffer est ensuite fusionné
 			sur le dessin à l'opacité désirée. 
 
-			Cette solution n'a pas été testée ni implémentée pour les raisons expliquées précédamment.  
+			Cette solution n'a pas été testée ni implémentée pour les raisons expliquées précédemment.  
 
 		\section{Oversampling}
-			Une solution plus globale aux problème d'anti-aliasing est l'oversampling. Cette
-			technique consite à effectuer la rasterisation avec une plus grande résolution dans les zones
+			Une solution plus globale aux problème d'anti-aliasing est l'oversampling\cite{shirley}. Cette
+			technique consiste à effectuer la rasterisation avec une plus grande résolution dans les zones
 			posant des difficultés d'anti-aliasing. 
 
 			Le problème est donc l'identification des zones à oversampler. Une approche courante est l'utilisation
