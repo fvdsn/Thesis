@@ -98,7 +98,7 @@
 			Les dégradés sont eux approximés par des dégradés linaires. Ceci permet de calculer rapidement les
 			rapports de surface, sans trop grande erreur d'approximation\footnote{Ceci est une adaptation de la technique des Wu-Pixels\cite{wupixel}}.
 
-		\subsubsection{Quantisation des très petites primitives }
+		\subsubsection{\label{tpquan} Quantisation des très petites primitives }
 			Lorsqu'une primitive devient trop petite, il n'est plus possible de 
 			représenter la contribution de cette primitive à la couleur du pixel avec une quantisation 8bit. 
 				\begin{figure}[ht]
@@ -199,7 +199,7 @@
 			Si elle fonctionne dans les autres frameworks, il est en revanche difficile de savoir si elle fonctionnera 
 			aussi bien dans des images utilisant à des différences d'échelle que ces frameworks ne peuvent atteindre. 
 			
-		\subsection{Problème de fusion à faible opacité}
+		\subsection{\label{fopac}Problème de fusion à faible opacité}
 			La fusion de primitives à faible opacité donne lieu à de fâcheux problèmes d'aliasing à cause de la quantisation.
 			Le problème est exactement le même que les aberrations de couleurs pour les très petites primitives: Si l'on
 			fait la fusion d'une primitive de couleur $(255,120,60)$ à 1\% d'opacité, on fera effectivement la fusion d'une

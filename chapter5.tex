@@ -65,7 +65,7 @@
 
 
 			L'utilisateur commence avec une feuille de dessin blanche de $800 \times 600$ Millions de pixel, au cinquième
-			niveau de zoom, ce qui représente une zone par défaut d'un demi gigapixel. 
+			niveau de zoom. À ce niveau, la région visualisée a une résolution d'un demi gigapixel.
 
 			Pendant cette étape, l'évaluateur observe, note les commentaires de l'utilisateur, et répond aux questions
 			éventuelles. 
@@ -81,7 +81,7 @@
 			Il dispose pour cela d'une durée de vingt minutes. 
 
 			L'utilisateur commence avec une feuille de dessin blanche de $800 \times 600$ Millions de pixel, au cinquième
-			niveau de zoom, ce qui représente une zone par défaut d'un demi gigapixel. 
+			niveau de zoom. À ce niveau, la région visualisée a une résolution d'un demi gigapixel.
 
 			Pendant cette étape, l'évaluateur observe, note les commentaires de l'utilisateur, et répond aux questions
 			éventuelles. 
@@ -92,7 +92,7 @@
 			un éléphant, avec dans sa poche une puce} Le tout en respectant les échelles. 
 
 			L'utilisateur commence avec une feuille de dessin blanche de $800 \times 600$ Millions de pixel, au sixième
-			niveau de zoom, ce qui représente une zone par défaut de deux gigapixels
+			niveau de zoom. À ce niveau, la région visualisée a une résolution de deux gigapixels.
 
 			Pendant cette étape, l'évaluateur observe, note les commentaires de l'utilisateur, et répond aux questions
 			éventuelles. 
@@ -218,16 +218,22 @@
 			\end{description}	
 	\begin{figure}[h]
 		\centering
-		\subfloat[Portrait couleur par \emph{Brice Vandemoortele}]{\includegraphics[width=0.45\textwidth]{images/paintings/brice1} }
-		\subfloat[Homme avec puce sur un éléphant par \emph{Brice Vandemoortele}]{\includegraphics[width=0.45\textwidth]{images/paintings/brice2} }
+		\subfloat[Portrait couleur par \emph{Brice Vandemoortele}]{\includegraphics[width=0.45\textwidth]{images/paintings/brice2} }
+		\subfloat[Homme avec puce sur un éléphant par \emph{Brice Vandemoortele}]{\includegraphics[width=0.45\textwidth]{images/paintings/brice3}}
 		\\
-		\subfloat[Portrait couleur par \emph{Jean-Philippe Servais}]{\includegraphics[width=0.45\textwidth]{images/paintings/jf1} }
-		\subfloat[Portrait au trait par \emph{Jean-Philippe Servais}]{\includegraphics[width=0.45\textwidth]{images/paintings/jf2} }
+		\subfloat[Homme avec puce sur un éléphant, détail. Par \emph{Brice Vandemoortele}]{\includegraphics[width=0.9\textwidth]{images/paintings/brice3b}}
+		\\
+		\subfloat[Portrait couleur par \emph{Jean-Philippe Servais}]{\includegraphics[width=0.45\textwidth]{images/paintings/jeanphi2} }
+		\subfloat[Portrait au trait par \emph{Jean-Philippe Servais}]{\includegraphics[width=0.45\textwidth]{images/paintings/jeanphi1} }
 		\caption{Sélection de dessins terminés réalisés durant les tests}
 		\label{fig:paintings}
 	\end{figure}
 	La figure~\ref{fig:paintings}, page~\pageref{fig:paintings} présente une sélection des dessins qui ont pu être terminés pendant les tests.
-
+	
+	L'annexe B, page~\pageref{annexb} présente l'intégralité des dessins réalisés par les utilisateurs durant ces tests. Notons que les sujets 
+	imposés aux utilisateurs étaient parfois assez éloignés de leur spécialité. Il serait à ce titre intéressant de réaliser des tests plus libres
+	qui laisseraient aux utilisateurs le choix de la méthode et du sujet. 
+	
 	\section{Analyse}
 		\subsection{Performances de la peinture}
 		Les performances de la peinture ont été jugées de correctes à excellentes dans tous les tests par tous les utilisateurs. Un utilisateur
@@ -241,7 +247,8 @@
 		On voit sur le graphe de performance, à la figure~\ref{fig:paintperf}, page~\pageref{fig:paintperf} que la plupart des mise à jour
 		se fait dans des délais permettant l'interactivité. Le graphe (c) analyse de plus près les performances lors de la peinture. Les sauts
 		de performances sont expliqués par des changements dans les paramètres de l'outil de peinture. Les raisons de l'évolution à la hausse
-		des temps de rasterisation ne sont par contre pas encore claires. 
+		des temps de rasterisation ne sont par contre pas encore claires. On trouvera à l'annexe A, page~\pageref{annexa} des graphes similaires
+		pour l'intégralité des tests. 
 
 		On observera également les grandes disparités qui existent entre les styles de peinture des utilisateurs, qui se traduisent par des
 		différences significatives en terme de longueur et nombre de traits utilisés. Nous ne disposons cependant pas de suffisamment de
@@ -289,13 +296,61 @@
 		\subsection{Anti-Aliasing}
 		L'anti-aliasing fut jugé de correct à excellent dans tous les tests par tous les utilisateurs. Des remarques particulières ont été émises,
 		tant positives que négatives. La quantisation à faible opacité fut le problème principal. Une résolution de ce problème est
-		proposée dans le chapitre sur l'anti-aliasing. Un autre problème plus rare fut la disparition des traits à grande échelle. Ce problème est
-		également expliqué dans le chapitre sur l'anti-aliasing.  Les utilisateurs ont cependant beaucoup apprécié l'aspect général du rendu, et 
+		proposée dans le chapitre sur l'anti-aliasing à la section \emph{Problème de fusion à faible opacité}, page~\pageref{fopac}. Un autre problème plus rare fut la disparition des traits à grande échelle. Ce problème est
+		également expliqué dans la section \emph{Quantisation des très petites primitives}, à la page~\pageref{tpquan} du chapitre sur l'anti-aliasing.  Les utilisateurs ont cependant beaucoup apprécié l'aspect général du rendu, et 
 		ont parfois qualifié l'anti-aliasing de meilleur que ce qu'ils utilisaient habituellement.  
 		
 \chapter{Conclusion}
-		...
-		Ce mémoire nous aura permis 
-		d'explorer un nouveau type de framework d'édition d'images. 
+	Ce mémoire nous aura donc permis d'explorer les principes de base du framework \emph{Himalaya} et 
+	d'en identifier les principaux obstacles à son utilisation en tant qu'outil de peinture gigapixel.
+	
+	La plupart de ces problèmes furent résolus. Et pour chaque problème auquel nous n'avons pas pu apporter
+	de solution définitive, nous avons pu identifier plusieurs pistes de résolution.
 
-		
+	Les tests utilisateurs nous ont permis de confirmer ce que la théorie laissait supposer;
+	le framework que nous avons développé permet de peindre de manière interactive des images gigapixel en permettant
+	aux utilisateurs de réaliser plusieurs peintures de résolution jusqu'alors jamais atteinte, tout en proposant une
+	expérience satisfaisante. Si les tests ont révélé des lacunes de performances pour certaines fonctionnalités, 
+	les discussions avec les utilisateurs ont permis d'identifier des pistes de résolution.
+
+
+	Le chapitre sur l'utilisation du framework nous a également donné un aperçu de la facilité avec laquelle on peut 
+	utiliser celui-ci pour réaliser des applications graphiques complexes. Les techniques présentées dans ce chapitre ont
+	également été validées par l'implémentation d'une application utilisée pour les tests utilisateurs.
+
+	Si les résultats expérimentaux sont positifs, les développements théoriques le sont aussi. Ceux-ci nous ont en effet 
+	permis d'identifier un grand nombre de pistes qui devraient nous permettre d'améliorer encore de manière substantielle 
+	les performances du framework :
+	\begin{itemize}
+		\item L'utilisation du multithreading.
+		\item Une heuristique de cache globale
+		\item Des migrations de la cache entre la mémoire vive et le disque dur.
+		\item Des meilleures heuristiques pour les Bounding Opérations.
+		\item Des améliorations au niveau de l'anti-aliasing.
+	\end{itemize} 
+
+	Outre ces possibilités, nous ne devons pas oublier certaines fonctionnalités dont nous avons parlé au premier chapitre qui
+	n'ont pas été explorées dans ce mémoire. Nous pensons à la gestion des espaces colorimétriques, 
+	aux transformations géométriques, aux filtres, à  l'intégration à un système de mégatextures ainsi qu'à la lecture et 
+	l'enregistrement de fichiers. Il ne fait aucun doute que l'implémentation des ces dernières, et leurs
+	tests pour des utilisations plus variées soulèveront de nouveaux problèmes méritant notre attention.
+
+
+	%Il était une fois un homme. Seul, dans une ruelle étroite, il marchait, sans trop savoir ou aller. Perdu ? 
+	%Certainement pas ! Il ne savait que trop bien ou il se trouvait ! Mais où aller ? Partout ou il promène ses
+	%loques, partout ou il pose son regard las, il retrouve un endroit connu depuis une éternité... s'il y a bien
+	%un endroit où l'on ne peut se perdre, c'est l'enfer.
+
+	%L'enfer
+	%. Une ville
+	%ou tout se con
+
+
+%	Les tests utilisateurs se sont vraiment avéré géniaux, les utilisateurs ont dansé, chanté et bu à
+%	la gloire de mon programme, se sont protesté devant ses bugs, et imploré sa grâce divine. Cependant,
+%	cela n'est qu'un début. Car en vérité je vous le dis, notre but va bien plus loin. Non! Nous ne nous
+%	arrèterons pas au premier petit succès sans intérèt! Nous avancerons! Encore et toujours! Au delà des
+%	limites du monde! Nous dépasserons les frontières de l'espace et du temps! Délaissant toute raison,
+%	toute logique, et toutes basses considérations, nous ferons face à l'infini armé de notre seule foi dans
+%	ce mémoire! Vous aussi, lecteur, abandonnez vous à l'univers et dépassez les limites. Ne mettez pas 18
+%	là ou l'on pourrait mettre 19! Mettez 20! Mettez 21 ... Mettez 22 !
